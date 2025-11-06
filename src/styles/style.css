@@ -1515,12 +1515,26 @@ section .bg-img {
   max-width: 100%;
 }
 
+.sl-markdown-content p:has(img[src*="/interface/image4"]) {
+  width: 300px;
+}
 .sl-markdown-content img[src*="/linetype/image2"],
 .sl-markdown-content img[src*="/linetype/image3"],
 .sl-markdown-content img[src*="/linetype/image4"],
-.sl-markdown-content img[src*="/linetype/image5"] {
+.sl-markdown-content img[src*="/linetype/image5"],
+.sl-markdown-content img[src*="/graphicsconfig/image1"] {
   width: 400px;
 }
+
+.sl-markdown-content img[src*="/graphicsconfig/image2"],
+.sl-markdown-content img[src*="/graphicsconfig/image3"],
+.sl-markdown-content img[src*="/graphicsconfig/image4"],
+.sl-markdown-content img[src*="/graphicsconfig/image5"],
+.sl-markdown-content img[src*="/graphicsconfig/image6"] {
+  width: 500px;
+}
+
+
 .sl-markdown-content p:has(img[src*="/commands/addpve"]):nth-child(2) {
   margin-right: calc(10% - 4px);
 }
@@ -1528,6 +1542,9 @@ section .bg-img {
   display: inline-block;
   width: 45%;
 }
+
+
+
 
 .search-results-container {
   position: fixed;
