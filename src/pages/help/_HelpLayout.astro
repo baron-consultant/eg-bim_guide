@@ -140,7 +140,11 @@ const homePath = '/eg-bim_guide/help/';
   };
 
   window.addEventListener('resize', syncHeight);
-  window.addEventListener('popstate', () => { toggleSearchResults(false); updateSidebar(); updateSearchBar(); });
+  window.addEventListener('popstate', () => { 
+    toggleSearchResults(false); 
+    updateSidebar();
+    updateSearchBar();
+   });
   document.addEventListener('astro:page-load', initLayout);
   document.addEventListener('astro:before-preparation', e => {
     const newUrl = e?.newDocument?.location?.pathname;

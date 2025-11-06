@@ -1188,14 +1188,17 @@ section .bg-img {
   width: 1200px;
   line-height: 1.7;
 }
-.sl-markdown-content h3 {
-  margin-top: 1.5em;
-}
-.sl-markdown-content h2 {
+.sl-heading-wrapper {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-top: 1.5em;
+}
+
+.sl-markdown-content h2 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 .sl-markdown-content h2 > strong {
   white-space: nowrap;
@@ -1216,7 +1219,7 @@ section .bg-img {
 .sl-markdown-content img[alt$="emoji"] {
   margin: 0;
 }
-.sl-markdown-content a {
+.sl-markdown-content a:not(.sl-anchor-link) {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -1232,6 +1235,15 @@ section .bg-img {
   background: #ffc600;
   box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.5) inset;
   margin-top: 2px;
+}
+.sl-heading-wrapper .sl-anchor-link  {
+  display: none;
+}
+.sl-heading-wrapper .sl-anchor-link .sr-only {
+  display: block;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 .sl-markdown-content a[href=""],
 .sl-markdown-content a[href*="youtu"] {
@@ -1296,7 +1308,9 @@ section .bg-img {
 
 /* 명령어 페이지 검색창 */
 .searchbar-wrapper {
+  position: relative;
   width: 226px;
+  z-index: 1;
 }
 .search-wrap:has(.search-container) {
   align-items: center;
@@ -1515,26 +1529,12 @@ section .bg-img {
   max-width: 100%;
 }
 
-.sl-markdown-content p:has(img[src*="/interface/image4"]) {
-  width: 300px;
-}
 .sl-markdown-content img[src*="/linetype/image2"],
 .sl-markdown-content img[src*="/linetype/image3"],
 .sl-markdown-content img[src*="/linetype/image4"],
-.sl-markdown-content img[src*="/linetype/image5"],
-.sl-markdown-content img[src*="/graphicsconfig/image1"] {
+.sl-markdown-content img[src*="/linetype/image5"] {
   width: 400px;
 }
-
-.sl-markdown-content img[src*="/graphicsconfig/image2"],
-.sl-markdown-content img[src*="/graphicsconfig/image3"],
-.sl-markdown-content img[src*="/graphicsconfig/image4"],
-.sl-markdown-content img[src*="/graphicsconfig/image5"],
-.sl-markdown-content img[src*="/graphicsconfig/image6"] {
-  width: 500px;
-}
-
-
 .sl-markdown-content p:has(img[src*="/commands/addpve"]):nth-child(2) {
   margin-right: calc(10% - 4px);
 }
@@ -1542,9 +1542,6 @@ section .bg-img {
   display: inline-block;
   width: 45%;
 }
-
-
-
 
 .search-results-container {
   position: fixed;

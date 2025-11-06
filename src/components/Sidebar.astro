@@ -79,7 +79,7 @@ function getFirstLinkForTab(tab: any): string {
     </div>
     
     <!-- SearchBar를 sidebar-tabs 아래로 이동 (B탭일 때만 표시) -->
-    <div class="searchbar-wrapper" data-show-on-tab="commands" style={activeTab === 'commands' ? 'display: block;' : 'display: none;'}>
+    <div class="searchbar-wrapper" data-show-on-tab="commands" >
       <SearchBar />
     </div>
   </div>
@@ -256,7 +256,7 @@ function activateDepthMenu(targetPath) {
   const activeTabContent = $('.tab-content.active');
   const isGridLayout = activeTabContent?.classList.contains('grid-layout');
 
-  // 🔹 모든 메뉴 초기화 (닫기)
+  // 🔹 모든 메뉴 초기화
   $$('.depth01 > li').forEach(li => li.classList.remove('active'));
   $$('.depth02:not(.single)').forEach(depth => depth.classList.add('d-none'));
   $$(`.depth02 li, .depth03 li`).forEach(li => li.classList.remove('active'));
@@ -265,10 +265,24 @@ function activateDepthMenu(targetPath) {
   const targetAnchor = $$(`a[href]`).find(a => new URL(a.href, location.origin).pathname === targetPath);
   if (!targetAnchor) return;
 
-  targetAnchor.parentElement?.classList.add('active');
   const parentLi = targetAnchor.closest('.depth01 > li');
-  parentLi?.classList.add('active');
-  parentLi?.querySelector('.depth02')?.classList.remove('d-none');
+  const parentDepth02 = targetAnchor.closest('.depth02');
+
+  // B 탭(=grid-layout)인 경우 → 나머지 전부 닫고 클릭한 메뉴만 열기
+  if (isGridLayout) {
+    // 모든 depth02 닫기
+    $$('.depth02:not(.single)').forEach(depth => depth.classList.add('d-none'));
+    // 클릭한 depth02만 열기
+    if (parentDepth02) parentDepth02.classList.remove('d-none');
+    if (parentLi) parentLi.classList.add('active');
+  } else {
+    // 일반 탭은 기존처럼 활성화만 처리
+    if (parentLi) parentLi.classList.add('active');
+    if (parentDepth02) parentDepth02.classList.remove('d-none');
+  }
+
+  // 🔹 활성 표시
+  targetAnchor.parentElement?.classList.add('active');
 }
 
   
@@ -370,6 +384,57 @@ document.addEventListener('astro:page-load', () => {
   }, 100); // 살짝 지연을 줘야 DOM 위치가 잡힌 후 자연스럽게 이동됨
 });
 
+/* ------------------------------
+  🔙 뒤로가기(popstate) 처리
+------------------------------ */
+/* ------------------------------
+  🔙 뒤로가기(popstate) 처리 + 부드러운 닫힘 + 스크롤 복원
+------------------------------ */
+window.addEventListener('popstate', () => {
+  const currentPath = window.location.pathname;
+  const sidebar = document.querySelector('.nav-wrap');
+  const activeTabContent = document.querySelector('.tab-content.active');
+  const isGridLayout = activeTabContent?.classList.contains('grid-layout');
+
+  // 🔹 스크롤 복원
+  restoreSidebarScroll();
+
+  // 🔹 현재 메뉴 찾기
+  const currentAnchor = [...document.querySelectorAll('a[href]')].find(a =>
+    new URL(a.href, location.origin).pathname === currentPath
+  );
+  if (!currentAnchor) return;
+
+  // 🔹 depth 초기화 + 부드럽게 닫기
+  document.querySelectorAll('.depth01 > li.active').forEach(li => li.classList.remove('active'));
+  document.querySelectorAll('.depth02:not(.single)').forEach(ul => {
+    if (!ul.classList.contains('d-none')) {
+       ul.classList.add('d-none');
+    }
+  });
+
+  // 🔹 현재 메뉴만 열기
+  const parentLi = currentAnchor.closest('.depth01 > li');
+  const parentDepth02 = currentAnchor.closest('.depth02');
+
+  if (isGridLayout) {
+    // commands 탭일 경우: 나머지 전부 닫고 클릭한 depth02만 열기
+    document.querySelectorAll('.depth01 > li').forEach(li => li.classList.remove('active'));
+    document.querySelectorAll('.depth02:not(.single)').forEach(depth => depth.classList.add('d-none'));
+
+    parentLi?.classList.add('active');
+    parentDepth02?.classList.remove('d-none');
+  } else {
+    // 일반 탭이면 단순히 열기
+    parentLi?.classList.add('active');
+    parentDepth02?.classList.remove('d-none');
+  }
+
+  currentAnchor.parentElement?.classList.add('active');
+
+  // 🔹 활성 메뉴 중앙 배치
+  setTimeout(scrollActiveDepth02IntoView, 400);
+});
 
 
 </script>
