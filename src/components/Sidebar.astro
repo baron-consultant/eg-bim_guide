@@ -7,7 +7,23 @@ const {activeMenu } = Astro.props;
 const locale = Astro.url.pathname.includes('/help/en/') ? 'en' : 'ko';
 const sidebarTabs = await getSidebarTabs(locale);
 
-const isActive = (id: string) => activeMenu === id || activeMenu.includes(id);
+const cleanActiveMenu = activeMenu ? activeMenu.replace(/^(en|ko)\//, '') : '';
+
+function isItemActive(item: any): boolean {
+  if (!item) return false;
+  if (item.id === activeMenu || item.id === cleanActiveMenu) return true;
+  if (item.href) {
+    const hrefPath = item.href.replace(/\/$/, '');
+    const hrefSlug = hrefPath.substring(hrefPath.lastIndexOf('/') + 1);
+    if (hrefSlug && (hrefSlug === cleanActiveMenu || hrefSlug === activeMenu)) {
+      return true;
+    }
+  }
+  if (item.children && item.children.length > 0) {
+    return item.children.some((child: any) => isItemActive(child));
+  }
+  return false;
+}
 
 // 현재 활성 탭 결정 (activeMenu가 속한 탭)
 function getActiveTab() {
@@ -15,12 +31,7 @@ function getActiveTab() {
   for (const tab of sidebarTabs) {
     for (const group of tab.groups) {
       for (const item of group.items) {
-        if (isActive(item.id)) return tab.id;
-        if (item.children) {
-          for (const child of item.children) {
-            if (isActive(child.id)) return tab.id;
-          }
-        }
+        if (isItemActive(item)) return tab.id;
       }
     }
   }
@@ -105,7 +116,7 @@ function getFirstLinkForTab(tab: any): string {
               const isSingleItem = item.children && !item.label;
               
               return (
-                <li class={isActive(item.id) ? 'active' : ''}>
+                <li class={isItemActive(item) ? 'active' : ''}>
                   {item.children ? (
                     <>
                       {/* 🔹 single인 경우 depth01 > li > a 없이 바로 depth02 */}
@@ -116,10 +127,10 @@ function getFirstLinkForTab(tab: any): string {
                         </a>
                       )}
                       
-                      <ul class={`depth02 ${isSingleItem ? 'single' : (isActive(item.id) ? '' : 'd-none')}`} id={menuId}>
+                      <ul class={`depth02 ${isSingleItem ? 'single' : (isItemActive(item) ? '' : 'd-none')}`} id={menuId}>
                         {item.children.map((child) => (
-                          <li class={isActive(child.id) ? 'active' : ''}>
-                            <a href={child.href || '#'} data-page={child.id}>
+                          <li class={isItemActive(child) ? 'active' : ''}>
+                            <a href={child.href || '#'} data-page={child.id} data-astro-prefetch="hover">
                               {child.children && (
                                 <i class="ico-line"></i>
                               )} 
@@ -129,8 +140,8 @@ function getFirstLinkForTab(tab: any): string {
                             {child.children && (
                               <ul class="depth03">
                                 {child.children.map((grandChild) => (
-                                  <li class={isActive(grandChild.id) ? 'active' : ''}>
-                                    <a href={grandChild.href} data-page={grandChild.id}>
+                                  <li class={isItemActive(grandChild) ? 'active' : ''}>
+                                    <a href={grandChild.href} data-page={grandChild.id} data-astro-prefetch="hover">
                                       <span>{grandChild.label}</span>
                                     </a>
                                   </li>
@@ -143,8 +154,8 @@ function getFirstLinkForTab(tab: any): string {
                     </>
                   ) : (
                     <ul class="depth02 single">
-                      <li class={isActive(item.id) ? 'active' : ''}>
-                        <a href={item.href} data-page={item.id}>
+                      <li class={isItemActive(item) ? 'active' : ''}>
+                        <a href={item.href} data-page={item.id} data-astro-prefetch="hover">
                           <span>{item.label}</span>
                         </a>
                       </li>
@@ -221,6 +232,23 @@ function restoreMenuState() {
   
   // grimmi 탭만 상태 복원
   if (tabId === 'grimmi') {
+    const currentPath = window.location.pathname;
+    const activeItem = document.querySelector('.tab-content.active a[data-page].active, .tab-content.active .depth02 > li.active > a');
+    
+    // 현재 활성화된 아이템의 부모 그룹
+    const activeParentGroup = activeItem?.closest('.depth01 > li');
+
+    // 현재 선택된 메뉴의 부모 그룹이 아니면 다른 depth01 > li의 active 제거 및 depth02 닫아두기
+    document.querySelectorAll('.tab-content.active .depth01 > li').forEach(parentLi => {
+      if (parentLi !== activeParentGroup) {
+        parentLi.classList.remove('active');
+        const depth02 = parentLi.querySelector('.depth02:not(.single)');
+        if (depth02) {
+          depth02.classList.add('d-none');
+        }
+      }
+    });
+
     const savedState = sessionStorage.getItem(`menuState_${tabId}`);
     if (savedState) {
       try {
@@ -228,7 +256,8 @@ function restoreMenuState() {
         openMenus.forEach(toggleId => {
           const depth02 = document.getElementById(toggleId);
           const parentLi = depth02?.closest('.depth01 > li');
-          if (depth02 && parentLi && !depth02.classList.contains('single')) {
+          // activeParentGroup이거나 사용자가 직접 조작한 메뉴인 경우만 복원
+          if (depth02 && parentLi && !depth02.classList.contains('single') && parentLi === activeParentGroup) {
             depth02.classList.remove('d-none');
             parentLi.classList.add('active');
           }
@@ -271,114 +300,57 @@ function scrollActiveDepth02IntoView() {
 /* ------------------------------
   사이드바 초기화 함수
 ------------------------------ */
+/* ------------------------------
+  사이드바 초기화 함수
+------------------------------ */
 function initializeSidebar() {
   const tabButtons = document.querySelectorAll('.sidebar-tabs .tab-button'); 
   const tabContents = document.querySelectorAll('.tab-content');
 
   let isNavigating = false;
 
-  const $ = s => document.querySelector(s);
-  const $$ = s => [...document.querySelectorAll(s)];
+  const $ = (s: string) => document.querySelector(s);
+  const $$ = (s: string) => [...document.querySelectorAll(s)];
 
-  /* ------------------------------
-    현재 탭이 commands인지 확인
-  ------------------------------ */
   function isCommandsTab() {
     const activeTabContent = $('.tab-content.active');
     return activeTabContent?.classList.contains('grid-layout');
   }
 
-  /* ------------------------------
-    URL 기반 초기 탭 활성화
-  ------------------------------ */
   function setInitialTab() {
     const path = window.location.pathname;
-    let activeTabId = (path.includes('/ko/commands/') || path.includes('/en/commands/')) ? 'commands' : tabButtons[0]?.dataset.tab || 'grimmi';
+    let activeTabId = (path.includes('/ko/commands/') || path.includes('/en/commands/')) ? 'commands' : tabButtons[0]?.getAttribute('data-tab') || 'grimmi';
     activateTab(activeTabId);
   }
   
-  /* ------------------------------
-    탭 활성화 공통 함수
-  ------------------------------ */
-  function activateTab(tabId) {
-    // 현재 탭 상태 저장
+  function activateTab(tabId: string) {
     saveMenuState();
     saveSidebarScroll();
 
-    tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabId));
-    tabContents.forEach(content => content.classList.toggle('active', content.dataset.tabContent === tabId));
+    tabButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId));
+    tabContents.forEach(content => content.classList.toggle('active', content.getAttribute('data-tab-content') === tabId));
 
-    // 새 탭 상태 복원 (약간의 지연으로 DOM이 업데이트된 후 실행)
     requestAnimationFrame(() => {
       restoreMenuState();
-      setTimeout(() => {
-        restoreSidebarScroll();
-      }, 50);
+      restoreSidebarScroll();
     });
-  }
-
-  /* ------------------------------
-    링크 클릭 시 depth 메뉴 활성화
-  ------------------------------ */
-  function activateDepthMenu(targetPath, skipMenuStateRestore = false) {
-    const isCommands = isCommandsTab();
-
-    // 🔹 활성 표시 초기화
-    $(`.depth02 li, .depth03 li`).forEach(li => li.classList.remove('active'));
-
-    // 🔹 commands 탭일 경우에만 모든 메뉴 닫기
-    if (isCommands) {
-      $('.depth01 > li').forEach(li => li.classList.remove('active'));
-      $('.depth02:not(.single)').forEach(depth => depth.classList.add('d-none'));
-    }
-    // 🔹 grimmi 탭이고 메뉴 상태 복원을 건너뛰지 않는 경우에만 메뉴 닫기
-    else if (!skipMenuStateRestore) {
-      // 링크 직접 클릭 시에만 현재 페이지 메뉴만 활성화
-    }
-
-    // 🔹 클릭된 메뉴만 활성화
-    const targetAnchor = $(`a[href]`).find(a => new URL(a.href, location.origin).pathname === targetPath);
-    if (!targetAnchor) return;
-
-    const parentLi = targetAnchor.closest('.depth01 > li');
-    const parentDepth02 = targetAnchor.closest('.depth02');
-
-    if (parentLi) parentLi.classList.add('active');
-    if (parentDepth02 && !parentDepth02.classList.contains('single')) {
-      parentDepth02.classList.remove('d-none');
-    }
-
-    // 🔹 활성 표시
-    targetAnchor.parentElement?.classList.add('active');
-
-    // grimmi 탭이면 상태 저장
-    if (!isCommands) {
-      saveMenuState();
-    }
   }
 
   /* ------------------------------
     탭 버튼 클릭 처리
   ------------------------------ */
   tabButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
+    if ((btn as any).dataset.bound) return;
+    (btn as any).dataset.bound = 'true';
+
+    btn.addEventListener('click', function(this: HTMLElement) {
       if (isNavigating || this.classList.contains('active')) return;
 
-      const tabId = this.dataset.tab;
-      const defaultLink = this.dataset.tabLink || '#';
+      const tabId = this.getAttribute('data-tab') || 'grimmi';
+      const defaultLink = this.getAttribute('data-tab-link') || '#';
       const lastVisited = sessionStorage.getItem(`lastVisited_${tabId}`) || defaultLink;
 
       activateTab(tabId);
-      
-      // 🔹 탭 전환 시에는 활성 표시만 업데이트 (메뉴 상태는 유지)
-      requestAnimationFrame(() => {
-        const targetAnchor = $(`a[href]`).find(a => new URL(a.href, location.origin).pathname === lastVisited);
-        if (targetAnchor) {
-          // depth02, depth03 활성 표시만 업데이트
-          $(`.depth02 li, .depth03 li`).forEach(li => li.classList.remove('active'));
-          targetAnchor.parentElement?.classList.add('active');
-        }
-      });
 
       isNavigating = true;
       requestAnimationFrame(() => {
@@ -391,10 +363,10 @@ function initializeSidebar() {
     depth 메뉴 토글
   ------------------------------ */
   $$('.depth01 > li > a[data-toggle]').forEach(menu => {
-    const newMenu = menu.cloneNode(true);
-    menu.parentNode?.replaceChild(newMenu, menu);
+    if ((menu as any).dataset.bound) return;
+    (menu as any).dataset.bound = 'true';
 
-    newMenu.addEventListener('click', function(e) {
+    menu.addEventListener('click', function(this: HTMLElement, e: Event) {
       e.preventDefault();
       const parentLi = this.parentElement;
       const toggleId = this.getAttribute('data-toggle');
@@ -404,26 +376,19 @@ function initializeSidebar() {
         const isCommands = isCommandsTab();
 
         if (isCommands) {
-          // 🔹 Commands 탭: 하나만 열림 (아코디언 방식)
-          const isCurrentlyOpen = parentLi.classList.contains('active') && !depth02.classList.contains('d-none');
-          
+          const isCurrentlyOpen = parentLi?.classList.contains('active') && !depth02.classList.contains('d-none');
           if (isCurrentlyOpen) {
-            // 같은 메뉴 재클릭 시 닫기
-            parentLi.classList.remove('active');
+            parentLi?.classList.remove('active');
             depth02.classList.add('d-none');
           } else {
-            // 다른 메뉴 클릭 시: 모든 메뉴 닫고 클릭한 메뉴만 열기
             $$('.depth01 > li').forEach(li => li.classList.remove('active'));
             $$('.depth02:not(.single)').forEach(depth => depth.classList.add('d-none'));
-            parentLi.classList.add('active');
+            parentLi?.classList.add('active');
             depth02.classList.remove('d-none');
           }
         } else {
-          // 🔹 Grimmi 탭: 여러 메뉴 동시 펼침 가능 (토글 방식)
           depth02.classList.toggle('d-none');
           parentLi?.classList.toggle('active');
-          
-          // 상태 저장
           saveMenuState();
         }
       }
@@ -431,34 +396,43 @@ function initializeSidebar() {
   });
 
   /* ------------------------------
-    링크 클릭 시 lastVisited 저장
+    링크 클릭 시 즉각적인 시각 피드백 & lastVisited 저장
   ------------------------------ */
   $$('.depth02 a, .depth03 a').forEach(link => {
-    link.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      if (!href || href === '#') {
-        e.preventDefault();
-        return;
-      }
+    if ((link as any).dataset.bound) return;
+    (link as any).dataset.bound = 'true';
 
-      // ✅ 현재 스크롤 위치 저장
+    link.addEventListener('click', function(this: HTMLElement) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
+
+      // ⚡️ [즉각적 반응] 클릭하는 순간 0.001초 만에 즉시 메뉴 선택 강조!
+      $$('.depth02 li, .depth03 li').forEach(li => li.classList.remove('active'));
+      const targetLi = this.closest('li');
+      targetLi?.classList.add('active');
+
+      const parentDepth01Li = this.closest('.depth01 > li');
+      $$('.depth01 > li').forEach(li => {
+        if (li !== parentDepth01Li) {
+          li.classList.remove('active');
+        }
+      });
+      parentDepth01Li?.classList.add('active');
+
       saveSidebarScroll();
-      // ✅ 메뉴 상태 저장
       saveMenuState();
 
-      const activeTabBtn = $('.sidebar-tabs .tab-button.active');
+      const activeTabBtn = document.querySelector('.sidebar-tabs .tab-button.active') as HTMLElement;
       if (activeTabBtn) {
+        const tabId = activeTabBtn.getAttribute('data-tab');
         sessionStorage.setItem(
-          `lastVisited_${activeTabBtn.dataset.tab}`,
+          `lastVisited_${tabId}`,
           new URL(href, location.origin).pathname
         );
       }
-
-      activateDepthMenu(new URL(href, location.origin).pathname);
     });
   });
 
-  // 초기 탭 설정 실행
   setInitialTab();
 }
 
@@ -470,7 +444,7 @@ document.addEventListener('astro:page-load', () => {
   restoreSidebarScroll();      // 이전 스크롤 위치 복원
   setTimeout(() => {
     scrollActiveDepth02IntoView(); // 선택된 메뉴 중앙 배치
-  }, 100);
+  }, 50);
 });
 
 /* ------------------------------

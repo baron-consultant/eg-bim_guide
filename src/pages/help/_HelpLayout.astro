@@ -20,7 +20,7 @@ const headerTitle = locale === 'en' ? headerTitleEn : headerTitleKo;
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="format-detection" content="telephone=no" />
-  <link rel="shortcut icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="shortcut icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
   <title>{title}</title>
   <ViewTransitions />
   <style is:inline>
@@ -82,29 +82,11 @@ const headerTitle = locale === 'en' ? headerTitleEn : headerTitleKo;
   /* ------------------------------
     메뉴 상태 복원 (updateSidebar 호출 전)
   ------------------------------ */
+  /* ------------------------------
+    메뉴 상태 복원 (updateSidebar 호출 전)
+  ------------------------------ */
   function restoreMenuStateBeforeUpdate() {
-    const activeTabBtn = $('.tab-button.active');
-    const tabId = activeTabBtn?.dataset.tab;
-    
-    // grimmi 탭이고 저장된 상태가 있으면 복원
-    if (tabId === 'grimmi') {
-      const savedState = sessionStorage.getItem(`menuState_${tabId}`);
-      if (savedState) {
-        try {
-          const openMenus = JSON.parse(savedState);
-          openMenus.forEach(toggleId => {
-            const depth02 = document.getElementById(toggleId);
-            const parentLi = depth02?.closest('.depth01 > li');
-            if (depth02 && parentLi && !depth02.classList.contains('single')) {
-              depth02.classList.remove('d-none');
-              parentLi.classList.add('active');
-            }
-          });
-        } catch (e) {
-          console.warn('Failed to restore menu state:', e);
-        }
-      }
-    }
+    // Grimmi 탭은 접속 라우트에 따라 부모 그룹만 활성화하도록 세션 강제복원을 수행하지 않음
   }
 
   /* ------------------------------
@@ -133,27 +115,27 @@ const headerTitle = locale === 'en' ? headerTitleEn : headerTitleKo;
     if (!matchedLink) return;
 
     requestAnimationFrame(() => {
-      // 🔹 먼저 저장된 메뉴 상태 복원 (grimmi 탭용)
-      restoreMenuStateBeforeUpdate();
-
-      const isCommands = isCommandsTab();
-
       // 🔹 depth02, depth03의 active는 항상 제거 (현재 선택된 페이지만 표시)
       $$('.depth02 li.active, .depth03 li.active').forEach(li => li.classList.remove('active'));
 
-      // 🔹 commands 탭일 경우에만 depth01 active 제거 (하나만 열림)
-      if (isCommands) {
-        $$('.depth01 > li.active').forEach(li => li.classList.remove('active'));
-        $$('.depth02:not(.single)').forEach(depth => depth.classList.add('d-none'));
-      }
-      // grimmi 탭일 경우 depth01 active 상태 유지 (여러 개 열림 가능)
-      
-      // 매칭된 링크의 li만 활성화
+      // 🔹 매칭된 링크의 li만 활성화
       const li = matchedLink.closest('li');
       li?.classList.add('active');
       
       // 부모 depth01 > li 활성화
       const parent = matchedLink.closest('.depth01 > li');
+      
+      // 🔹 현재 매칭된 페이지가 속한 부모 그룹이 아니면 다른 모든 depth01 > li 비활성화 및 접기
+      $$('.depth01 > li').forEach(depthLi => {
+        if (depthLi !== parent) {
+          depthLi.classList.remove('active');
+          const depth02 = depthLi.querySelector('.depth02:not(.single)');
+          if (depth02) {
+            depth02.classList.add('d-none');
+          }
+        }
+      });
+
       parent?.classList.add('active');
       const parentDepth02 = parent?.querySelector('.depth02');
       if (parentDepth02 && !parentDepth02.classList.contains('single')) {
@@ -191,21 +173,6 @@ const headerTitle = locale === 'en' ? headerTitleEn : headerTitleKo;
     updateSidebar();
    });
   document.addEventListener('astro:page-load', initLayout);
-  document.addEventListener('astro:before-preparation', e => {
-    const newUrl = e?.newDocument?.location?.pathname;
-    if (!newUrl) return;
-    
-    // 🔹 정확한 경로 매칭
-    $$('a[data-page]').forEach(link => {
-      const href = link.getAttribute('href');
-      if (!href) return;
-      
-      const linkPath = new URL(href, location.origin).pathname;
-      if (newUrl === linkPath || newUrl.startsWith(linkPath + '/')) {
-        link.closest('li')?.classList.add('active');
-      }
-    });
-  });
 
   initLayout();
 

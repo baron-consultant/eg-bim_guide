@@ -2,11 +2,19 @@ import type { SidebarTab } from "./sidebarConfig";
 
 // ✅ nav-wrap 라벨(영문) - 아래 한글 텍스트를 영문으로 직접 교체하세요
 export const headerTitle = "User Guide";
-export const commandsTabLabel = "Commands";
-export const commandsGroupTitle = "Commands";
+export const commandsTabLabel = "Command";
+export const commandsGroupTitle = "Command";
 export const commandsTabLabelFallback = "Command Documentation";
 export const searchPlaceholder = "Search";
 export const videoHint = "▲ Hover your mouse over the video to see the playback control bar.";
+
+// ✅ 검색결과(search-results-container) 라벨(영문)
+export const searchClearTitle = "Clear search";
+export const searchGuideLabel = "Guide";
+export const searchCommandLabel = "Command";
+export const searchCountUnit = "";
+export const searchNoResultsTemplate = 'No search results for "{query}".';
+export const searchDeleteLabel = "Delete";
 
 // 그리미 탭 설정 (영문)
 export function getGrimmiTabEn(base: string): SidebarTab {
@@ -42,7 +50,7 @@ export function getGrimmiTabEn(base: string): SidebarTab {
             label: "",
             children: [
               {
-                id: "interface03",
+                id: "interface01",
                 label: "Main Screen Layout",
                 href: `${base}/interface01`,
               },
@@ -53,12 +61,12 @@ export function getGrimmiTabEn(base: string): SidebarTab {
             label: "Home Menu",
             children: [
               {
-                id: "interface01",
+                id: "interface02",
                 label: "Basic Functions",
                 href: `${base}/interface02`,
               },
               {
-                id: "interface02",
+                id: "interface03",
                 label: "User Settings\nBackup & Restore",
                 href: `${base}/interface03`,
               },
@@ -90,23 +98,6 @@ export function getGrimmiTabEn(base: string): SidebarTab {
               },
             ],
           },
-          // 20260722 메뉴변경으로인한 삭제
-          //{
-          //   id: "multi",
-          //   label: "멀티작업공간",
-          //   children: [
-          //     {
-          //       id: "multi01",
-          //       label: "파일탭 분리(Read Only)",
-          //       href: `${base}/multi01`,
-          //     },
-          //     {
-          //       id: "multi02",
-          //       label: "Layout(도면공간) 탭 분리",
-          //       href: `${base}/multi02`,
-          //     },
-          //   ],
-          // },
           {
             id: "command",
             label: "Command View All",
@@ -159,7 +150,7 @@ export function getGrimmiTabEn(base: string): SidebarTab {
             children: [
               {
                 id: "feature01",
-                label: "Bar, Popup(PROPERTIES)",
+                label: "Bar, Popup(Properties)",
                 href: `${base}/feature01`,
               },
               {

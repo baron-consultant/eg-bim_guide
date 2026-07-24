@@ -56,8 +56,29 @@ function openModal(modalId: string) {
   modal.style.display = "block";
 
   if (video) {
-    video.currentTime = 0;
-    video.play();
+    const playVideo = () => {
+      video.currentTime = 0;
+      video.play().catch(() => {
+        // 자동재생 실패(리소스 미준비 등) 시 loadeddata 이후 한 번 더 재시도
+        video.addEventListener(
+          "loadeddata",
+          () => {
+            video.currentTime = 0;
+            video.play().catch(() => {});
+          },
+          { once: true }
+        );
+      });
+    };
+
+    // Astro 클라이언트 전환(soft navigation) 직후에는 video 리소스 로드가
+    // 중단/지연된 상태일 수 있어, 매번 load()로 명시적으로 다시 불러온 뒤 재생한다.
+    video.load();
+    if (video.readyState >= 2) {
+      playVideo();
+    } else {
+      video.addEventListener("loadeddata", playVideo, { once: true });
+    }
   }
 }
 

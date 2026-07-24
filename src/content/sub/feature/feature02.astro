@@ -1,62 +1,70 @@
 ---
-import { IMAGE_BASE_PATH } from '../config';
+import { IMAGE_BASE_PATH } from "../config";
 ---
 
 <section id="group19" class="feature02">
-<!-- 타이틀 -->
-<div class="page-tit-wrap">
-  <div class="tit-box">
-    <span class="page-tail"></span>
-    <h3>
-      적용할&nbsp;<span>색상을 선택</span>하고 선택 색상에 대한&nbsp;
-      <span>속성 값</span>&nbsp;확인
-    </h3>
-    <span class="page-tail"></span>
+  <!-- 타이틀 -->
+  <div class="page-tit-wrap">
+    <div class="tit-box">
+      <span class="page-tail"></span>
+      <h3>
+        적용할&nbsp;<span>색상을 선택</span>하고 선택 색상에 대한&nbsp;
+        <span>속성 값</span>&nbsp;확인
+      </h3>
+      <span class="page-tail"></span>
+    </div>
+    <div class="tip-box">
+      <h4 class="tip-tit">How to use</h4>
+      <dl>
+        <dt>방식 1</dt>
+        <dd>명령어 입력창&nbsp;&nbsp;>&nbsp;&nbsp;Command : COLOR</dd>
+      </dl>
+      <dl>
+        <dt>방식 2</dt>
+        <dd>
+          상단 바&nbsp;&nbsp;>&nbsp;&nbsp;색상&nbsp;&nbsp;>&nbsp;&nbsp;색상 상세
+        </dd>
+      </dl>
+    </div>
   </div>
-  <div class="tip-box">
-    <h4 class="tip-tit">How to use</h4>
-    <dl>
-      <dt>방식 1</dt>
-      <dd>명령어 입력창&nbsp;&nbsp;>&nbsp;&nbsp;Command : COLOR</dd>
-    </dl>
-    <dl>
-      <dt>방식 2</dt>
-      <dd>
-        상단 바&nbsp;&nbsp;>&nbsp;&nbsp;색상&nbsp;&nbsp;>&nbsp;&nbsp;색상
-        상세보기
-      </dd>
-    </dl>
+
+  <!-- // 타이틀 -->
+  <div class="contents">
+    <div class="inner">
+      <img
+        class="bg-img"
+        src={`${IMAGE_BASE_PATH}/feature/3x_feature_02.png`}
+        alt=" "
+      />
+      <div class="blind">
+        <dl>
+          <dt>속성Bar(속성바)</dt>
+          <dd>선택된 객체의 주요 속성정보가 표시되며 수정 가능</dd>
+
+          <dt>속성창</dt>
+
+          <dt>Quick Select</dt>
+          <dd>선택된 객체를 조건으로 필터링하여 원하는 객체만 선택</dd>
+
+          <dt>기본정보</dt>
+          <dd>모든 객체가 가지고 있는 기본 특성</dd>
+
+          <dt>형상정보</dt>
+          <dd>
+            선택된 객체의 종류에 따른 크기, 면적, 길이, 각도 등의 형상 정보 표
+          </dd>
+
+          <dt>위치정보</dt>
+          <dd>선택된 객체의 종류에 따른 시종점 및 정점 등의 좌표 정보 표시</dd>
+
+          <dt>다중 선택</dt>
+          <dd>같은 종류의 객체를 다중 선택 시 객체 수 표시</dd>
+          <dd>
+            다른 종류의 객체를 다중 선택 시 목록으로 표시 * 다른 종류의 객체를
+            다중 선택 시
+          </dd>
+        </dl>
+      </div>
+    </div>
   </div>
-</div>
-
-<!-- // 타이틀 -->
-<div class="contents">
-  <div class="inner">
-    <img class="bg-img" src={`${IMAGE_BASE_PATH}/feature/3x_feature_02.png`} alt=" " />
-          <div class="blind">
-          <dl>
-            <dt>속성Bar(속성바)</dt>
-            <dd>선택된 객체의 주요 속성정보가 표시되며 수정 가능</dd>
-
-            <dt>속성창</dt>
-
-            <dt>Quick Select</dt>
-            <dd>선택된 객체를 조건으로 필터링하여 원하는 객체만 선택</dd>
-
-            <dt>기본정보</dt>
-            <dd>모든 객체가 가지고 있는 기본 특성</dd>
-
-            <dt>형상정보</dt>
-            <dd>선택된 객체의 종류에 따른 크기, 면적, 길이, 각도 등의 형상 정보 표</dd>
-
-            <dt>위치정보</dt>
-            <dd>선택된 객체의 종류에 따른 시종점 및 정점 등의 좌표 정보 표시</dd>
-
-            <dt>다중 선택</dt>
-            <dd>같은 종류의 객체를 다중 선택 시 객체 수 표시</dd>
-            <dd>다른 종류의 객체를 다중 선택 시 목록으로 표시 * 다른 종류의 객체를 다중 선택 시</dd> 
-          </dl>
-        </div>
-  </div>
-</div>
 </section>

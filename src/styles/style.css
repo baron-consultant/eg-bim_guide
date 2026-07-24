@@ -1969,6 +1969,11 @@ html[lang|="en"] .multiprint01 .link-print {
   word-break: keep-all;
 }
 
+.sl-markdown-content td[align="center"],
+.sl-markdown-content th[align="center"] {
+  white-space: nowrap;
+}
+
 .sl-markdown-content p {
   line-height: 1.7;
   margin-bottom: 1rem;

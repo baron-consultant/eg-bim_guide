@@ -9,6 +9,10 @@ import starlightThemeNova  from 'starlight-theme-nova';
 export default defineConfig({
 	site: 'https://baron-consultant.github.io',
 	base: '/eg-bim_guide/',
+	prefetch: {
+		prefetchAll: true,
+		defaultStrategy: 'hover'
+	},
 	devToolbar: {
 		enabled: false,
 	},

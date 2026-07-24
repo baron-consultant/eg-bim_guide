@@ -1,11 +1,20 @@
 ---
 import { generateSearchData } from '../lib/searchIndex.js';
-import { searchPlaceholder as searchPlaceholderKo } from '../lib/sidebarLabels.ko';
-import { searchPlaceholder as searchPlaceholderEn } from '../lib/sidebarLabels.en';
+import * as ko from '../lib/sidebarLabels.ko';
+import * as en from '../lib/sidebarLabels.en';
 
 const locale = Astro.url.pathname.includes('/help/en/') ? 'en' : 'ko';
-const searchPlaceholder = locale === 'en' ? searchPlaceholderEn : searchPlaceholderKo;
+const labels = locale === 'en' ? en : ko;
+const searchPlaceholder = labels.searchPlaceholder;
 const searchData = await generateSearchData(locale); // 서버에서 생성 (locale 기준)
+const searchLabels = {
+  clearTitle: labels.searchClearTitle,
+  guideLabel: labels.searchGuideLabel,
+  commandLabel: labels.searchCommandLabel,
+  countUnit: labels.searchCountUnit,
+  noResultsTemplate: labels.searchNoResultsTemplate,
+  deleteLabel: labels.searchDeleteLabel,
+};
 ---
 
 <div class="searchbar-wrapper">
@@ -13,8 +22,8 @@ const searchData = await generateSearchData(locale); // 서버에서 생성 (loc
   <div class="search-container">
     <div class="search-input-wrapper">
       <input id="search-input" type="text" placeholder={searchPlaceholder} autocomplete="off" />
-      <button id="search-clear-btn" class="search-clear-btn" title="검색어 지우기">✕</button>
-      <span class="search-icon" title="검색">
+      <button id="search-clear-btn" class="search-clear-btn" title={searchLabels.clearTitle}>✕</button>
+      <span class="search-icon" title={searchPlaceholder}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" >
           <path d="M11.1681 6.18235C11.1681 3.42879 8.93592 1.19658 6.18235 1.19658C3.42879 1.19658 1.19658 3.42879 1.19658 6.18235C1.19658 8.93592 3.42879 11.1681 6.18235 11.1681C8.93592 11.1681 11.1681 8.93592 11.1681 6.18235ZM12.3647 6.18235C12.3647 7.67411 11.836 9.04217 10.9562 10.1102L15.3803 14.5343C15.614 14.7679 15.614 15.1467 15.3803 15.3803C15.1467 15.614 14.7679 15.614 14.5343 15.3803L10.1102 10.9562C9.04217 11.836 7.67411 12.3647 6.18235 12.3647C2.76793 12.3647 0 9.59677 0 6.18235C0 2.76793 2.76793 0 6.18235 0C9.59677 0 12.3647 2.76793 12.3647 6.18235Z" fill="#000"/>
         </svg>
@@ -45,12 +54,13 @@ const searchData = await generateSearchData(locale); // 서버에서 생성 (loc
   </div>
 </div>
 
-<script define:vars={{ searchData }}>
-document.addEventListener('astro:page-load', () => new SearchManager(searchData));
+<script define:vars={{ searchData, searchLabels }}>
+document.addEventListener('astro:page-load', () => new SearchManager(searchData, searchLabels));
 
 class SearchManager {
-  constructor(searchData) {
+  constructor(searchData, searchLabels) {
     this.data = searchData;
+    this.labels = searchLabels;
     this.input = document.getElementById('search-input');
     this.clearBtn = document.getElementById('search-clear-btn');
     this.dropdown = document.getElementById('search-history-dropdown');
@@ -160,7 +170,7 @@ renderResults(results, query) {
     this.resultsList.innerHTML = `
       <div class="no-results">
         <div class="no-results-text">
-          <strong>"${query}"</strong>에 대한 검색 결과가 없습니다.
+          ${this.labels.noResultsTemplate.replace('{query}', `<strong>"${query}"</strong>`)}
         </div>
       </div>
     `;
@@ -195,7 +205,7 @@ renderResults(results, query) {
   */
 
   this.resultsCount.innerHTML = `
-    가이드 <strong>${countPage} 건</strong> / 명령어 <strong>${countCommand} 건</strong>
+    ${this.labels.guideLabel} <strong>${countPage}${this.labels.countUnit}</strong> / ${this.labels.commandLabel} <strong>${countCommand}${this.labels.countUnit}</strong>
   `;
 
   // 🔹 HTML 조립
@@ -204,7 +214,7 @@ renderResults(results, query) {
     const group = groups[type];
     if (!group.length) continue;
 
-    const title = type === 'command' ? '명령어' : '가이드';
+    const title = type === 'command' ? this.labels.commandLabel : this.labels.guideLabel;
     htmlSections.push(`
       <div class="search-group" data-tab="${type}">
         <div class="group-title">${title}</div>
@@ -228,8 +238,8 @@ renderResults(results, query) {
       '<mark>$1</mark>'
     );
     const typeBadge = item.type === 'mdx'
-      ? '<span class="result-badge badge-command">명령어</span>'
-      : '<span class="result-badge badge-page">가이드</span>';
+      ? `<span class="result-badge badge-command">${this.labels.commandLabel}</span>`
+      : `<span class="result-badge badge-page">${this.labels.guideLabel}</span>`;
     const urlWithQuery = `${item.url}?search=${encodeURIComponent(query)}`;
 
     return `
@@ -331,7 +341,7 @@ renderResults(results, query) {
     this.historyList.innerHTML = this.history.map(q => `
       <li class="history-item" tabindex="-1">
         <span class="text" data-query="${q}">${q}</span>
-        <button class="delete-btn" title="삭제">✕</button>
+        <button class="delete-btn" title="${this.labels.deleteLabel}">✕</button>
       </li>
     `).join('');
     this.historyList.querySelectorAll('.history-item').forEach(item => {
