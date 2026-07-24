@@ -1,0 +1,67 @@
+﻿---
+title: PLINE
+---
+
+[image1]: ../../../../../assets/images/en/commands/pline/image1.png
+[image2]: ../../../../../assets/images/en/commands/pline/image2.png
+[image3]: ../../../../../assets/images/en/commands/pline/image3.png
+
+- Creates a polyline.
+- Use various options to create a polyline or draw an object whose type is a polyline.
+
+![][image1]
+
+- Option keywords for specifying the polyline start point
+
+* Follow or ENTER: Specifies the last point as the polyline's start point
+* Specify the start point on screen with the mouse
+
+![][image2]
+
+- Option keywords for specifying the polyline's next point
+
+— After the start point has been specified
+
+- Arc: Creates an arc whose object type is a polyline.
+- Distance: Creates a polyline by entering a length and angle.
+- Follow: Creates a polyline at the same angle as the previously drawn polyline.
+- Halfwidth: Sets half of the starting width and half of the ending width of the polyline to be drawn.
+- Width: Sets the starting width and ending width of the polyline to be drawn.
+
+— After the second point has been specified
+
+- Undo: Cancels the current polyline creation step and returns to the previous one.
+
+— After the third point has been specified
+
+- Close: Creates a closed polyline.
+
+![][image3]
+
+- Option keywords for drawing an arc whose object type is a polyline
+
+* Angle: Draws the arc by entering the included angle for the segment.
+* Center: Draws the arc by specifying its center point on screen with the mouse.
+* Close: Creates an arc ending at the polyline's start point, closing the polyline and ending the command.
+* Direction: Draws the arc by specifying the direction from the start point on screen with the mouse.
+* Halfwidth: Sets half of the arc's line width.
+* Line: Switches to the line-drawing option.
+* Radius: Sets the radius of the arc.
+* Secondpt: Draws the arc by specifying the second point it will pass through on screen with the mouse.
+* Width: Sets the line width of the arc.
+* Undo: Cancels the current creation step and returns to the previous one.
+
+## **1\. How to Draw a Polyline** [**Demo Video**](https://youtu.be/BAW0OXStXp8)
+
+1\) Run the "PLINE" command.  
+2\) Specify the polyline's start point and next point.  
+3\) Press the ENTER or ESC key to create the polyline and end the command.
+
+## **2\. How to Draw an Arc Whose Object Type Is a Polyline** [**Demo Video**](https://youtu.be/Vvz5_fQFzPI)
+
+1\) Run the "PLINE" command.  
+2\) Specify the start point of the polyline.  
+3\) Enter the Arc keyword.  
+4\) If you need to set additional arc properties, select the keyword and enter a value.  
+5\) Specify the end of the arc to create it.  
+6\) Press the ENTER or ESC key to end the command.

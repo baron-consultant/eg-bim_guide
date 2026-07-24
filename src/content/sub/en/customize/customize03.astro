@@ -1,0 +1,165 @@
+---
+import { IMAGE_BASE_PATH, VIDEO_BASE_PATH } from '../../config';
+
+
+import VideoModal from '.././../../../components/VideoModal.astro';
+
+const videoModals = [
+  { id: 'modal-grid', videoSrc: `${VIDEO_BASE_PATH}/video/en/grid.mp4` },
+  { id: 'modal-grip', videoSrc:`${VIDEO_BASE_PATH}/video/en/selected_object_grip.mp4`  },
+  { id: 'modal-ortho', videoSrc: `${VIDEO_BASE_PATH}/video/en/orthogonal_mode.mp4`  },
+  { id: 'modal-iso', videoSrc: `${VIDEO_BASE_PATH}/video/en/isometric_drawing.mp4` },
+  { id: 'modal-overlap', videoSrc: `${VIDEO_BASE_PATH}/video/en/selection_of_overlapping_objects.mp4` },
+  { id: 'modal-osnap', videoSrc:  `${VIDEO_BASE_PATH}/video/en/object_snap.mp4` },
+  { id: 'modal-dynamic', videoSrc:  `${VIDEO_BASE_PATH}/video/en/dynamic_input.mp4`  },
+  { id: 'modal-angle', videoSrc:  `${VIDEO_BASE_PATH}/video/en/angle_snap_tracking.mp4` },
+  { id: 'modal-efct', videoSrc:  `${VIDEO_BASE_PATH}/video/en/selection_visual_effects.mp4` },
+];
+---
+
+<section id="group6" class="customize03">
+  <!-- 타이틀 -->
+  <div class="page-tit-wrap">
+    <div class="tit-box">
+      <span class="page-tail"></span>
+      <h3>
+        <span>Set work environment</span>&nbsp;by turning desired functions ON/OFF according to&nbsp;<span>work situation</span>
+      </h3>
+      <span class="page-tail"></span>
+    </div>
+    <div class="tip-box">
+      <h4 class="tip-tit">How to use</h4>
+      <dl>
+        <dt>Method 1</dt>
+        <dd>Support Icon Bar&nbsp;&nbsp;>&nbsp;&nbsp;Support View All</dd>
+      </dl>
+      <dl>
+        <dt>Method 2</dt>
+        <dd>
+          Command Icon Bar&nbsp;&nbsp;>&nbsp;&nbsp;Command
+          View All&nbsp;&nbsp;>&nbsp;&nbsp;Support Features
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- // 타이틀 -->
+  <div class="contents">
+    <div class="inner">
+      <img class="bg-img" src={`${IMAGE_BASE_PATH}/en/customize/3x_customize_03.png`} alt=" " />
+      <!-- 링크 -->
+      <ul>
+        <li>
+          <button type="button" class="link-grid" data-modal="modal-grid">
+            <span class="blind">Grid</span>
+            <div class="blind">A rectangular pattern displayed as lines or dots on the workspace</div>
+          </button>
+        </li>
+
+        <li>
+          <button type="button" class="link-grip" data-modal="modal-grip">
+            <span class="blind">Grip Display Settings</span>
+            <div class="blind">
+              Whether to display grip points when an object is selected.
+              Set the shape and number of displayed grip points.
+              Whether to display executable commands when a grip point is selected
+            </div>
+          </button>
+        </li>
+
+        <li class="blind">
+          <dl>
+            <dt>Object Snap Tracking</dt>
+            <dd>Display orthogonal guidelines from the snap point</dd>
+ 
+            <dt>ViewCube</dt>
+            <dd>Whether to display the ViewCube to control view direction at the top right of the workspace</dd>
+          </dl>
+        </li>
+        <li>
+          <button type="button" class="link-ortho" data-modal="modal-ortho">
+            <span class="blind">Ortho Mode</span>
+            <div class="blind">Restrict cursor movement horizontally and vertically during command execution</div>
+          </button>
+        </li>
+
+         <li class="blind">
+          <dl>
+            <dt>View As Lineweight</dt>
+            <dt>Grid Snap</dt>
+            <dd>A function that snaps cursor movement to set snap intervals</dd>
+          </dl>
+        </li>
+
+        <li>
+          <button type="button" class="link-iso" data-modal="modal-iso">
+            <span class="blind">Isometric Mode</span>
+            <div class="blind">Draw like a 3D shape on a 2D plane. Workspace is planar in projected mode.</div>
+          </button>
+        </li>
+
+         <li class="blind">
+          <dl>
+            <dt>Command AutoComplete</dt>
+            <dd>Display list of related commands when typing a command and auto-input selected command from list</dd>
+            <dt>Display Cursor Coordinates</dt>
+          </dl>
+        </li>
+
+        <li>
+          <button type="button" class="link-overlap" data-modal="modal-overlap">
+            <span class="blind">Selection Cycling</span>
+            <div class="blind">When multiple objects overlap, display object types to distinguish and select specific objects</div>
+          </button>
+        </li>
+
+        <li>
+          <button type="button" class="link-osnap" data-modal="modal-osnap">
+            <span class="blind">Object Snap</span>
+            <div class="blind">A function that snaps to specific points of an object such as endpoint, midpoint, and center</div>
+          </button>
+        </li>
+
+        <li>
+          <button type="button" class="link-dynamic" data-modal="modal-dynamic">
+            <span class="blind">Dynamic Input</span>
+            <div class="blind">Display command, coordinates, distance, etc. in real-time near the crosshair cursor during command input and execution</div>
+          </button>
+        </li>
+
+        <li>
+          <button type="button" class="link-angle" data-modal="modal-angle">
+            <span class="blind">Angle Snap Tracking</span>
+            <div class="blind">Display a guideline by snapping to a desired angle position from the base point</div>
+          </button>
+        </li>
+
+        <li>
+          <button type="button" class="link-efct" data-modal="modal-efct">
+            <span class="blind">Selection Effects</span>
+            <div class="blind">Select the color of the selection area based on cursor start direction upon object selection. Display when cursor hovers near an object before selection</div>
+          </button>
+        </li>
+      </ul>
+      <!-- // 링크 -->
+    </div>
+  </div>
+
+  <!-- 모달들 -->
+  {videoModals.map(modal => (
+    <VideoModal id={modal.id} videoSrc={modal.videoSrc} />
+  ))}
+
+</section>
+
+<script>
+  import { initModalController } from '.././../../../lib/modalController';
+  
+  // 초기 로드
+  initModalController();
+  
+  // Astro 페이지 전환 시에도 재실행
+  document.addEventListener('astro:page-load', () => {
+    initModalController();
+  });
+</script>

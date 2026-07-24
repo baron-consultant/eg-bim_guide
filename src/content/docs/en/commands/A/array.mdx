@@ -1,0 +1,82 @@
+---
+title: ARRAY
+---
+
+[image1]: ../../../../../assets/images/en/commands/array/image1.png
+
+* This function copies (arrays) a selected object multiple times according to a set pattern.
+
+![][image1]
+
+## **1\. How to Use Array**
+
+1\) Type "ARRAY" in the Command Line.  
+2\) Select the objects to array and press the Enter key.  
+3\) Select the array type in the Command Line.
+
+- Rectangular (rectangular array)  
+- Path (path array)  
+- Polar (polar array)
+
+## **2\. How to Use Rectangular Array** [**Demo Video**](https://youtu.be/04KPr6xtJ0A)
+
+1\) Select the "Rectangular" option in the Command Line.  
+2\) Select the objects to array and press the ENTER key.  
+3\) Set the required options in the Command Line or dialog box.
+
+| Option | Description |
+| :---: | ----- |
+| Associative | Sets whether to keep the array as a single group. - ON: Keeps the arrayed objects as a single associative array (default) - OFF: Creates them as separate individual objects |
+| Base point | Specifies the base point of the array. Objects are duplicated in rows and columns around this point. |
+| COunt | Specifies the total number of copies. (You can specify the total count directly instead of columns × rows × levels.) |
+| Spacing | Specifies the spacing between copies. You can manually enter the horizontal and vertical distance between each object. |
+| COLumns | Sets the number of columns (horizontal direction). |
+| Rows | Sets the number of rows (vertical direction). |
+| Levels | Adds levels in the Z-axis (height) direction. (Used in 3D models.) |
+| eXit | Completes the array settings and ends the command. |
+
+4\) The array is created based on the selected object.
+
+## **3\. How to Use Path Array** [**Demo Video**](https://youtu.be/BDAKVVPST5A)
+
+1\) Select the "Path" option in the Command Line.  
+2\) Select the objects to array and press the ENTER key.  
+3\) Select the path to array along.  
+4\) Set the required options in the Command Line or dialog box.
+
+| Option | Description |
+| :---: | ----- |
+| Associative | Sets whether to keep the array as a single group. - ON: Keeps the arrayed objects as a single associative array (default) - OFF: Creates them as separate individual objects |
+| Method | Selects the array method. - Divide: Arrays based on the number of items - Measure: Arrays based on spacing |
+| Base point | Specifies the base point to use when duplicating. |
+| Tangent direction | Sets whether to align the orientation of the arrayed objects to the tangent direction of the path. |
+| Items | Enter the number of objects to array. |
+| Rows | Specifies the number of rows when arraying in multiple rows. (Default: 1) |
+| Levels | Arrays objects across multiple levels in the Z-axis direction. (For 3D work.) |
+| Align items | Sets whether to align objects to the path direction. - ON: Automatically rotates to match the path direction - OFF: Keeps the original angle |
+| Z direction | Turns Z-axis alignment on or off. Used to control object orientation on 3D paths. |
+| eXit | Completes the array settings and ends the command. |
+
+5\) The array is created along the specified path.
+
+## **4\. How to Use Polar Array** [**Demo Video**](https://youtu.be/2p-fUpDUftE)
+
+1\) Select the "Polar" option in the Command Line.  
+2\) Select the objects to array and press the ENTER key.  
+3\) Select the center point of the polar array and press the ENTER key.  
+4\) Set the required options in the Command Line or dialog box.
+
+| Option | Description |
+| :---: | ----- |
+| Associative | Sets whether to keep the array as a single group. - ON: Keeps the arrayed objects as a single associative array (default) - OFF: Creates them as separate individual objects |
+| Base point | Lets you reposition the base point of the array. The default is the center of the selected object. |
+| Items | Enter the number of objects to array. |
+| Angle between | Specifies the angle (°) between each object. |
+| Fill angle | Specifies the total angle (°) to fill. The default is 360°. (e.g., 180° → creates a semicircular array) |
+| Rows | Used to create a multi-tier (nested circular) array. (Default: 1) |
+| Levels | Arrays objects across multiple levels in the Z-axis direction. (For 3D work.) |
+| Rotate items | Specifies whether each object rotates to face the center. - ON: Objects rotate relative to the center (default) - OFF: Objects keep their original orientation |
+| eXit | Completes the array settings and ends the command. |
+
+5\) The array is created around the specified center point.
+

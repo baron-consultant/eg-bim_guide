@@ -1,0 +1,111 @@
+---
+import BaseLayout from './_HelpLayout.astro';
+import { pageRoutes, defaultPage } from '../../lib/navigation.js';
+import { loadComponent } from '../../lib/componentLoader.js';
+import { getCollection , getEntry, render} from 'astro:content';
+import { Image } from 'astro:assets';
+import { commandsTabLabel as commandsTabLabelKo } from '../../lib/sidebarLabels.ko';
+import { commandsTabLabel as commandsTabLabelEn } from '../../lib/sidebarLabels.en';
+import { getGrimmiTab, flattenGrimmiLabels } from '../../lib/sidebarConfig.js';
+
+// 🔹 sidebar 트리에서 빠진(비활성화된) 레거시 페이지용 타이틀 (nav에는 없지만 여전히 링크되는 페이지)
+const legacyPageTitles = {
+  ko: { multi01: '파일탭 분리', multi02: 'Layout 탭 분리' },
+  en: { multi01: 'Separate File Tab', multi02: 'Separate Layout Tab' },
+};
+
+export async function getStaticPaths() {
+  const componentRoutes = pageRoutes.map(route => ({
+    params: { slug: route.slug },
+    props: { type: 'component', route },
+  }));
+
+  const docsEntries = await getCollection('docs', e => e.id.startsWith('ko/commands/') || e.id.startsWith('en/commands/'));
+
+  docsEntries.sort((a, b) => {
+    const pathA = a.id.toLowerCase();
+    const pathB = b.id.toLowerCase();
+    return pathA.localeCompare(pathB, 'en', { numeric: true, sensitivity: 'base' });
+  });
+
+  const docsRoutes = docsEntries.map(entry => {
+    const slug = entry.id.replace(/\.mdx?$/, '');
+    return {
+      params: { slug },
+      props: {
+        type: 'mdx',
+        entrySlug: slug,
+        entryData: entry.data,
+      },
+    };
+  });
+
+  return [
+    { params: { slug: undefined }, props: { type: 'component', route: defaultPage } },
+    ...componentRoutes,
+    ...docsRoutes,
+  ];
+}
+
+const { type, route, entrySlug, entryData } = Astro.props;
+let pageTitle, activeMenu, Component, htmlContent;
+let pageClass = '';
+
+const CustomImage = (props: any) => {
+  const { src, alt = '', width, height, ...rest } = props;
+  const imgSrc = typeof src === 'object' && src.src ? src.src : src;
+  const imgWidth = width || (typeof src === 'object' && src.width ? src.width : undefined);
+  const imgHeight = height || (typeof src === 'object' && src.height ? src.height : undefined);
+  return { tag: 'img', props: { src: imgSrc, alt, width: imgWidth, height: imgHeight, ...rest } };
+};
+
+if (type === 'mdx') {
+  pageTitle = entryData.title || entrySlug;
+  activeMenu = entrySlug;
+  pageClass = entrySlug.replace(/^(ko|en)\//, '').replace(/\//g, '-').replace(/[^a-z0-9-]/gi, '-').toLowerCase();
+
+  try {
+
+    const allDocs = await getCollection('docs');
+    const entry = allDocs.find(doc => doc.id.replace(/\.mdx?$/, '') === entrySlug);
+
+    if (!entry) throw new Error(`Entry not found in collection: ${entrySlug}`);
+
+    const { Content } = await render(entry);
+    Component = Content;
+  } catch (error) {
+    htmlContent = `<div class="error"><h2>Failed to load content</h2><p>${error.message}</p></div>`;
+  }
+} else {
+  const current = route || defaultPage;
+  Component = await loadComponent(current.path);
+
+  const locale = current.slug.startsWith('en/') ? 'en' : 'ko';
+  const bareSlug = current.slug.replace(/^en\//, '');
+  const grimmiLabels = flattenGrimmiLabels(locale);
+  const guideLabel = getGrimmiTab(locale).label;
+  const label = grimmiLabels[current.slug] || legacyPageTitles[locale][bareSlug] || current.title.replace(/^가이드-/, '');
+
+  pageTitle = `${guideLabel}-${label}`;
+  activeMenu = current.slug;
+  pageClass = current.slug.replace(/\//g, '-').toLowerCase();
+}
+
+// ✅ 타입별 콘텐츠 래퍼 클래스 지정
+const contentClass = type === 'mdx' ? 'sl-markdown-content' : 'markdown-content';
+
+const commandsTabLabel = entrySlug?.startsWith('en/') ? commandsTabLabelEn : commandsTabLabelKo;
+const fullTitle = type === 'mdx' ? `${commandsTabLabel}-${pageTitle}` : pageTitle;
+---
+
+<BaseLayout title={fullTitle} activeMenu={activeMenu} pageClass={pageClass}>
+  <div class={contentClass}>
+       <!-- ✅ pageTitle은 MDX일 때만 표시 -->
+    {type === 'mdx' && pageTitle && <h1 class="page-title">{pageTitle}</h1>}
+    {Component ? (
+      <Component components={{ Image: CustomImage }} />
+    ) : (
+      <div set:html={htmlContent} />
+    )}
+  </div>
+</BaseLayout>

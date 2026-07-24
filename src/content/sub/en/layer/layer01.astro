@@ -1,0 +1,122 @@
+---
+import { IMAGE_BASE_PATH } from "../../config";
+---
+
+<section id="group20" class="layer01">
+  <!-- 타이틀 -->
+  <div class="page-tit-wrap">
+    <div class="tit-box">
+      <span class="page-tail"></span>
+      <h3>
+        Create each layer to&nbsp;<span>manage</span>&nbsp;
+        <span>colors, line types, line weights, transparency, printing</span>,
+        etc. per&nbsp;
+        <span>layer</span>
+      </h3>
+      <span class="page-tail"></span>
+    </div>
+    <div class="tip-box">
+      <h4 class="tip-tit">How to use</h4>
+      <dl>
+        <dt>Method 1</dt>
+        <dd>Command Input Window&nbsp;&nbsp;>&nbsp;&nbsp;Command : LAYER</dd>
+      </dl>
+      <dl>
+        <dt>Method 2</dt>
+        <dd>
+          Command View
+          All&nbsp;&nbsp;>&nbsp;&nbsp;Layer&nbsp;&nbsp;>&nbsp;&nbsp;<img
+            src={`${IMAGE_BASE_PATH}/ico/ico_layer.svg`}
+            alt=""
+          />
+          &nbsp;&nbsp;Layer Management&nbsp;&nbsp;>&nbsp;&nbsp;Layer Manager
+        </dd>
+      </dl>
+      <dl>
+        <dt>Method 3</dt>
+        <dd>
+          Top Bar&nbsp;&nbsp;>&nbsp;&nbsp;Layer&nbsp;&nbsp;>&nbsp;&nbsp;Open
+          Layer
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- // 타이틀 -->
+  <div class="contents">
+    <div class="inner">
+      <img
+        class="bg-img"
+        src={`${IMAGE_BASE_PATH}/en/layer/3x_layer_01.png`}
+        alt=" "
+      />
+      <div class="blind">
+        <dl>
+          <dt>Search Layer</dt>
+
+          <dt>All Layer Groups</dt>
+
+          <dt>Layer / Group Settings</dt>
+          <dd>
+            Layer Settings : Double-click to modify layer name, set current
+            working layer (Click radio button)
+          </dd>
+          <dd>Layer Group Settings : Multiple selection possible</dd>
+
+          <dt>Layer Group Settings</dt>
+
+          <dt>Add New Layer</dt>
+
+          <dt>Add Group</dt>
+
+          <dt>Add Layer Style Set</dt>
+          <dd>Up to 3 sets, various styles can be configured</dd>
+
+          <dt>Layer Detail Items</dt>
+          <dd>Click each name to reorder</dd>
+
+          <dt>Delete and Isolate Layers</dt>
+          <dd>Right-click to execute command</dd>
+          <dd>Delete : Deletes layer if it has no associated objects</dd>
+          <dd>
+            Force Delete : Deletes layer, changes associated objects to layer 0
+          </dd>
+          <dd>
+            Force Delete With Records (Delete Objects Only) : Keeps layer,
+            deletes all objects associated with that layer
+          </dd>
+          <dd>
+            Isolate Selected Layers (Separate corresponding layer objects) :
+            Isolates and shows only objects on that layer
+          </dd>
+
+          <dt>Layer Style Settings</dt>
+          <dd>
+            Color / L-Style / L-Weight(mm) / Transp(%) : Values can be
+            designated (Click to modify)
+          </dd>
+          <dd>
+            LineWeight Input Range : 0.00, 0.05, 0.09, 0.13, 0.15, 0.18, 0.20
+            0.25, 0.30, 0.35, 0.40, 0.50, 0.53, 0.60, 0.70, 0.80, 0.90, 1.00,
+            1.06, 1.20, 1.40, 1.58, 2.00, 2.11
+          </dd>
+          <dd>
+            Transparency Input Range : 0~90 / Transparency 20% / Transparency
+            50% / Transparency 90%
+          </dd>
+
+          <dt>Adjust Layer Display Status</dt>
+          <dd>Display on Workspace : ON / OFF</dd>
+          <dd>
+            Freeze/Thaw : Improve work speed by freezing unnecessary layers
+          </dd>
+          <dd>
+            Lock/Unlock : When locked, objects on that layer cannot be modified
+            (Clarity adjustable with fade value)
+          </dd>
+          <dd>Print : ON / OFF</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>

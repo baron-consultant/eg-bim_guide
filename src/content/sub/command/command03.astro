@@ -1,0 +1,93 @@
+---
+import { IMAGE_BASE_PATH, VIDEO_BASE_PATH } from '../config';
+
+
+import VideoModal from './../../../components/VideoModal.astro';
+
+const videoModals = [
+  { id: 'modal-rebar', videoSrc: `${VIDEO_BASE_PATH}/video/rebar_detail.mp4` },
+];
+---
+<section id="group13" class="command03">
+  <!-- 타이틀 -->
+  <div class="page-tit-wrap">
+    <div class="tit-box">
+      <span class="page-tail"></span>
+      <h3>
+        작업량이 많고 작업 시간이 긴 구조/배근도,&nbsp;
+        <span>특화명령어로 초보자도 쉽게</span>
+      </h3>
+      <span class="page-tail"></span>
+    </div>
+    <div class="tip-box">
+      <h4 class="tip-tit">How to use</h4>
+      <dl>
+        <dt>방식 1</dt>
+        <dd>
+          명령어 아이콘바&nbsp;&nbsp;>&nbsp;&nbsp;명령어
+          전체보기&nbsp;&nbsp;>&nbsp;&nbsp;구조/배근
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- // 타이틀 -->
+  <div class="contents">
+    <div class="inner">
+      <img class="bg-img" src={`${IMAGE_BASE_PATH}/command/3x_command_03.png`} alt=" " />
+      <!-- 링크 -->
+      <ul>
+        <li>
+          <button class="link-rebar"  type="button" data-modal="modal-rebar">
+            <span class="blind">철근 상세도 만들기</span>
+            <div class="blind">
+              1. 만들기 방식 선택
+              2. 철근상세 선택 : 미리보기에서 철근상세를 선택하여 철근제원표에 추가
+              3. 철근제원 입력 : a. 철근별 제원을 직접 입력(저장 파일을 불러와 사용 가능) b. 입력된 제원은 파일로 저장 가능
+              4. 철근상세도 넣기(명령어 실행) : 명령어 클릭, 입력창에 입력 시 적용
+            </div>
+          </button>
+        </li>
+         <li class="blind">
+          <dl>
+            <dt>도면축척 설정하기</dt>
+            <dd>철근, 마킹블록 및 재료표 등의 크기가 도면축척에 맞게 생성되도록 값을 먼저 입력</dd>
+
+            <dt>철근마킹블록 넣기</dt>
+            <dd>점 철근 및 선 철근에 대한 철근 마킹 블록 작성</dd>
+            <dd>철근 C.T.C 표시 및 철근상세 표기 가능</dd>
+
+            <dt>철근배근도 그리기</dt>
+
+            <dt>철근 길이 조회 및 마킹블록 수정</dt>
+
+            <dt>건설CALS 표준레이어 불러오기</dt>
+            <dd>리스트에 원하는 레이어를 체크 후 적용하기 버튼으로 레이어창에 체크 항목을 추가</dd>
+
+            <dt>철근재료표 만들기</dt>
+            <dd>철근제원 및 재료표의 상세 옵션 설정 확인 후 작성</dd>
+          </dl>
+        </li>
+
+      </ul>
+      <!-- // 링크 -->
+    </div>
+  </div>
+
+    <!-- 모달들 -->
+  {videoModals.map(modal => (
+    <VideoModal id={modal.id} videoSrc={modal.videoSrc} />
+  ))}
+</section>
+
+<script>
+  import { initModalController } from './../../../lib/modalController';
+  
+  // 초기 로드
+  initModalController();
+  
+  // Astro 페이지 전환 시에도 재실행
+  document.addEventListener('astro:page-load', () => {
+    initModalController();
+  });
+</script>

@@ -1,0 +1,98 @@
+---
+import { IMAGE_BASE_PATH } from '../../config';
+---
+
+<section id="group24" class="block04">
+<!-- 타이틀 -->
+<div class="page-tit-wrap">
+  <div class="tit-box">
+    <span class="page-tail"></span>
+    <h3>
+      <span>Link other files</span>&nbsp;to the current working file to&nbsp;
+      <span>create</span>&nbsp;and&nbsp;<span>manage</span>&nbsp;<span>external references</span>
+    </h3>
+    <span class="page-tail"></span>
+  </div>
+  <div class="tip-box">
+    <h4 class="tip-tit">How to use</h4>
+    <dl>
+      <dt>Method 1</dt>
+      <dd>Command Input Window&nbsp;&nbsp;>&nbsp;&nbsp;Command : BLOCK</dd>
+    </dl>
+    <dl>
+      <dt>Method 2</dt>
+      <dd>
+        Command
+        View All&nbsp;&nbsp;>&nbsp;&nbsp;Block&nbsp;&nbsp;>&nbsp;&nbsp;<img
+          src={`${IMAGE_BASE_PATH}/ico/ico_block.svg`}
+          alt=""
+        />&nbsp;&nbsp;Create Block&nbsp;&nbsp;>&nbsp;&nbsp;Block Manager
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<!-- // 타이틀 -->
+<div class="contents">
+  <div class="inner">
+    <img class="bg-img" src={`${IMAGE_BASE_PATH}/en/block/3x_block_04.png`} alt=" " />
+
+    <div class="blind">
+          <dl>
+            <dt>Add External Reference</dt>
+            <dd>Select External Reference file in the explorer, then specify insertion point * Insertable external reference file formats
+              Standard Drawing File (*.dwg)
+              GRIMI Drawing File (*.grm)
+              Drawing Exchange Format (*.dxf)
+              Drawing Template (*.dwt)
+              PDF Files (*.pdf)
+              DGN Files (*.dgn)
+              Image Files (*.gif, *.jpg, *.jpeg, *.png, *.tif, *.tiff, *.wbmp, *.wmf, *.emf, *.j2k, *.jp2, *.jpg, *.bmp, *.)
+            </dd>
+
+            <dt>Select External Reference</dt>
+            <dd>Click to set display status</dd>
+            <dd>Right-click to detach/open</dd>
+
+            
+            <dt>Insert External Reference</dt>
+            <dd>1) Double-click to add to workspace</dd>
+            <dd>2) Drag & Drop to workspace</dd>
+
+            <dt>External Reference LIST</dt>
+            <dd>List of External Reference available for use in the current file</dd>
+            <dd>Displays External Reference file name and file format</dd>
+
+            <dt>External Reference Preview</dt>
+
+            <dt>External Reference File Info</dt>
+            <dd>Name : External Reference file name (Modifiable)</dd>
+            <dd>Type : External Reference file format</dd>
+            <dd>Size : External Reference file size</dd>
+            <dd>Date : External Reference file creation date</dd>
+            <dd>Settings : Inserts at 0,0,0 coordinates when unchecked</dd>
+
+            <dt>Connection Method and Path</dt>
+            <dd>Connection Method : Set from "Command View All > Block > External Reference > Connection Method *XRFTYPE"</dd>
+            <dd>Multiple Links : Maintained when externally referenced to another file (Attach)</dd>
+            <dd>Current File : Linked only to the current drawing (Overlay)</dd>
+            <dd>Path Type - Absolute Path : Full path from the top-level folder to the file
+             - Relative Path : Path to the current file based on the folder of the current file
+             - No Path : File path disappears
+            </dd>
+            <dd>
+              Path - Shows the location of the currently referenced file, path change also possible
+- Click Refresh button to update file changes
+            </dd>
+
+            <dt>External Reference View Settings</dt>
+            <dd>Visibility : Set whether to process Raster Image</dd>
+            <dd>Process Raster Image during screen pan</dd>
+            <dd>Show Border : Whether to display image borders * If file format is image and PDF</dd>
+            <dd>Print : Whether to display borders when printing * IMAGEFRAME : Image border option settings</dd>
+            <dd>Fade : Adjusts opacity level and mainly indicates it is an External Reference object</dd>
+          </dl>
+      </div>
+  </div>
+</div>
+</section>

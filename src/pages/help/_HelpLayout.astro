@@ -1,0 +1,236 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Sidebar from '../../components/Sidebar.astro';
+import { headerTitle as headerTitleKo } from '../../lib/sidebarLabels.ko';
+import { headerTitle as headerTitleEn } from '../../lib/sidebarLabels.en';
+
+import '../../styles/common.css';
+import '../../styles/style.css';
+import '../../styles/custom.css';
+
+const { title, activeMenu, activeGroup, showBackButton = true, pageClass = '' } = Astro.props;
+const homePath = '/eg-bim_guide/help/';
+const locale = Astro.url.pathname.includes('/help/en/') ? 'en' : 'ko';
+const headerTitle = locale === 'en' ? headerTitleEn : headerTitleKo;
+---
+
+<html lang={locale === 'en' ? 'en' : 'ko'}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="shortcut icon" type="image/svg+xml" href="../favicon.svg" />
+  <title>{title}</title>
+  <ViewTransitions />
+  <style is:inline>
+    ::view-transition-old(root),
+    ::view-transition-new(root) { animation-duration: 0.2s; }
+    ::view-transition-old(sidebar),
+    ::view-transition-new(sidebar) { animation: none; }
+    .nav-wrap { view-transition-name: sidebar; }
+  </style>
+</head>
+
+<body>
+   <div class={`wrap ${pageClass ? `page-${pageClass}` : ''}`}>
+    <div class="nav-wrap" transition:persist transition:name="sidebar">
+      <header class="header">
+        <h1>{headerTitle}</h1>
+      </header>
+      <Sidebar activeMenu={activeMenu} activeGroup={activeGroup} />
+    </div>
+
+    <div class="container">
+      <div id="main-content">
+        <slot />
+      </div>
+    </div>
+  </div>
+
+<script>
+(function() {
+  const homePath = '{homePath}';
+
+  /* ------------------------------
+    공통 DOM 헬퍼
+  ------------------------------ */
+  const $ = selector => document.querySelector(selector);
+  const $$ = selector => [...document.querySelectorAll(selector)];
+
+  const toggleSearchResults = (show = false) => {
+    const searchContainer = $('#search-results-container');
+    const mainContent = $('#main-content');
+    if (searchContainer) searchContainer.style.display = show ? 'block' : 'none';
+    if (mainContent) mainContent.style.display = show ? 'none' : 'block';
+    const searchInput = $('#search-input');
+    if (searchInput) {
+      searchInput.value = '';
+      const clearBtn = $('#search-clear-btn');
+      if (clearBtn) clearBtn.style.display = 'none';
+    }
+  };
+
+  /* ------------------------------
+    현재 탭이 commands인지 확인
+  ------------------------------ */
+  function isCommandsTab() {
+    const activeTabContent = $('.tab-content.active');
+    return activeTabContent?.classList.contains('grid-layout');
+  }
+
+  /* ------------------------------
+    메뉴 상태 복원 (updateSidebar 호출 전)
+  ------------------------------ */
+  function restoreMenuStateBeforeUpdate() {
+    const activeTabBtn = $('.tab-button.active');
+    const tabId = activeTabBtn?.dataset.tab;
+    
+    // grimmi 탭이고 저장된 상태가 있으면 복원
+    if (tabId === 'grimmi') {
+      const savedState = sessionStorage.getItem(`menuState_${tabId}`);
+      if (savedState) {
+        try {
+          const openMenus = JSON.parse(savedState);
+          openMenus.forEach(toggleId => {
+            const depth02 = document.getElementById(toggleId);
+            const parentLi = depth02?.closest('.depth01 > li');
+            if (depth02 && parentLi && !depth02.classList.contains('single')) {
+              depth02.classList.remove('d-none');
+              parentLi.classList.add('active');
+            }
+          });
+        } catch (e) {
+          console.warn('Failed to restore menu state:', e);
+        }
+      }
+    }
+  }
+
+  /* ------------------------------
+    사이드바 + 탭 활성화
+  ------------------------------ */
+  function updateSidebar() {
+    const currentPath = window.location.pathname;
+    let longestMatch = 0, matchedLink = null;
+
+    // 🔹 가장 긴 경로를 가진 링크 찾기 (정확한 매칭)
+    $$('a[data-page]').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      
+      const linkPath = new URL(href, location.origin).pathname;
+      
+      // 정확히 일치하거나 현재 경로가 링크 경로로 시작하는 경우
+      if (currentPath === linkPath || currentPath.startsWith(linkPath + '/')) {
+        if (linkPath.length > longestMatch) {
+          matchedLink = link;
+          longestMatch = linkPath.length;
+        }
+      }
+    });
+    
+    if (!matchedLink) return;
+
+    requestAnimationFrame(() => {
+      // 🔹 먼저 저장된 메뉴 상태 복원 (grimmi 탭용)
+      restoreMenuStateBeforeUpdate();
+
+      const isCommands = isCommandsTab();
+
+      // 🔹 depth02, depth03의 active는 항상 제거 (현재 선택된 페이지만 표시)
+      $$('.depth02 li.active, .depth03 li.active').forEach(li => li.classList.remove('active'));
+
+      // 🔹 commands 탭일 경우에만 depth01 active 제거 (하나만 열림)
+      if (isCommands) {
+        $$('.depth01 > li.active').forEach(li => li.classList.remove('active'));
+        $$('.depth02:not(.single)').forEach(depth => depth.classList.add('d-none'));
+      }
+      // grimmi 탭일 경우 depth01 active 상태 유지 (여러 개 열림 가능)
+      
+      // 매칭된 링크의 li만 활성화
+      const li = matchedLink.closest('li');
+      li?.classList.add('active');
+      
+      // 부모 depth01 > li 활성화
+      const parent = matchedLink.closest('.depth01 > li');
+      parent?.classList.add('active');
+      const parentDepth02 = parent?.querySelector('.depth02');
+      if (parentDepth02 && !parentDepth02.classList.contains('single')) {
+        parentDepth02.classList.remove('d-none');
+      }
+
+      // 탭 활성화
+      const tabContent = matchedLink.closest('.tab-content');
+      if (tabContent) {
+        const tabId = tabContent.getAttribute('data-tab-content');
+        $$('.tab-button.active').forEach(btn => btn.classList.remove('active'));
+        $$('.tab-content.active').forEach(c => { if (c !== tabContent) c.classList.remove('active'); });
+        $(`.tab-button[data-tab="${tabId}"]`)?.classList.add('active');
+        tabContent.classList.add('active');
+      }
+    });
+  }
+
+  /* ------------------------------
+    뷰포트 높이 CSS 변수
+  ------------------------------ */
+  const syncHeight = () => document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
+
+  /* ------------------------------
+    초기화
+  ------------------------------ */
+  const initLayout = () => {
+    syncHeight();
+    updateSidebar();
+  };
+
+  window.addEventListener('resize', syncHeight);
+  window.addEventListener('popstate', () => { 
+    toggleSearchResults(false); 
+    updateSidebar();
+   });
+  document.addEventListener('astro:page-load', initLayout);
+  document.addEventListener('astro:before-preparation', e => {
+    const newUrl = e?.newDocument?.location?.pathname;
+    if (!newUrl) return;
+    
+    // 🔹 정확한 경로 매칭
+    $$('a[data-page]').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      
+      const linkPath = new URL(href, location.origin).pathname;
+      if (newUrl === linkPath || newUrl.startsWith(linkPath + '/')) {
+        link.closest('li')?.classList.add('active');
+      }
+    });
+  });
+
+  initLayout();
+
+ window.addEventListener("DOMContentLoaded", () => {
+    const btnHome = document.getElementById("btn-home");
+    if (!btnHome) return;
+
+    const aOrigin = "https://eg-bim.co.kr/egbim1/index.php";
+
+    btnHome.addEventListener("click", () => {
+      
+      try {
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage({ type: "focus-request" }, aOrigin);
+          
+        } else {
+          
+          window.open(aOrigin, "_blank", "noopener");
+        }
+      } catch (err) {
+       
+        console.warn("창 포커스 실패, 새창으로 열기", err);
+        window.open(aOrigin, "_blank", "noopener");
+      }
+    });
+  });
+})();
+</script>

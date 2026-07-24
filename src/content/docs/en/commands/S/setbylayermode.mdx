@@ -1,0 +1,27 @@
+---
+title: SETBYLAYERMODE
+---
+
+[image1]: ../../../../../assets/images/en/commands/setbylayermode/image1.png
+
+- A system variable that controls which properties (Color, Linetype, Lineweight, etc.) are automatically forced to ByLayer when the SETBYLAYER command is run.
+
+![][image1]
+
+## **1\. Setting the Properties**
+
+1\) Type "SETBYLAYERMODE" in the Command Line.  
+2\) Enter the desired value as a number. (Bit-code method.)  
+3\) The properties automatically applied when running the SETBYLAYER command vary depending on the value set.
+
+## **2\. Meaning of Values (Bit Codes)** [**Demo Video**](https://youtu.be/HaqCOT81Qog)
+
+1\) 0: Specify all options manually (default).  
+2\) 1: Automatically set Color to ByLayer.  
+3\) 2: Automatically set Linetype to ByLayer.  
+4\) 4: Automatically set Lineweight to ByLayer.  
+5\) 8: Automatically set Transparency to ByLayer.  
+6\) 16: Automatically set Material to ByLayer.
+
+To apply multiple values at once, enter the sum of the desired values.  
+Example: SETBYLAYERMODE \= 3 → automatically applies Color (1) \+ Linetype (2).

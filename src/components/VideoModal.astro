@@ -1,0 +1,26 @@
+---
+import { videoHint as videoHintKo } from '../lib/sidebarLabels.ko';
+import { videoHint as videoHintEn } from '../lib/sidebarLabels.en';
+
+interface Props {
+  id: string;
+  videoSrc: string;
+}
+
+const { id, videoSrc } = Astro.props;
+const locale = Astro.url.pathname.includes('/help/en/') ? 'en' : 'ko';
+const videoHint = locale === 'en' ? videoHintEn : videoHintKo;
+---
+
+<div class="modal" id={id}>
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <video
+      src={videoSrc}
+      controls
+      muted="muted"
+      controlsList="nodownload"
+    ></video>
+    <p>{videoHint}</p>
+  </div>
+</div>

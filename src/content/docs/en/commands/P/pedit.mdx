@@ -1,0 +1,65 @@
+﻿---
+title: PEDIT
+---
+
+[image1]: ../../../../../assets/images/en/commands/pedit/image1.png
+[image2]: ../../../../../assets/images/en/commands/pedit/image2.png
+[image3]: ../../../../../assets/images/en/commands/pedit/image3.png
+[image4]: ../../../../../assets/images/en/commands/pedit/image4.png
+
+- Edits the selected polyline.
+- Select one or more polylines to edit properties such as vertices, open/closed state, and width.
+
+![][image1]
+
+- Polyline selection option keywords
+
+* Multiple: Edits multiple polylines simultaneously with the same properties.
+
+![][image2]  
+![][image3]
+
+- Polyline property editing option keywords
+
+* Edit Vertices: Edits the vertices of the polyline.
+* Close: Edits the polyline into a closed shape.
+* Open: Edits the polyline into an open shape.
+* Decurve: Removes curves from the polyline, converting them to straight segments.
+* Fit: Edits the polyline into a curved polyline that passes through its vertices.
+* Join: Combines polylines whose endpoints connect into a single polyline.
+
+&nbsp;&nbsp;&nbsp;If you select a regular line, it is converted into a polyline, so it can also be combined with other lines.  
+&nbsp;&nbsp;&nbsp;(Result of combining \= Polyline)
+
+- Linetype-mode: Sets whether the line style restarts at each vertex.
+- Reverse: Reverses the direction of the polyline.
+- Spline: Makes the polyline spline-fit.
+- Taper: Sets different widths for the start and end of the polyline.
+- Width: Sets the width of the polyline.
+- Undo: Cancels the last action.
+- exit: Ends editing.
+
+![][image4]
+
+- Polyline vertex editing option keywords
+
+* Next: Edits the next vertex.
+* Previous: Edits the previous vertex.
+* Angle: Edits the angle of the line leading to the next vertex.
+* Break: Selects another vertex to break the line connecting it to the current vertex.
+* Insert: Creates a new vertex connected to the currently selected vertex.
+* Move: Moves the current vertex.
+* Regen: Regenerates the vertex.
+* Select: Selects a vertex on screen with the mouse to bring it in as the vertex to edit.
+* Straighten: Selects a vertex and, if the line connected to it contains a curve, edits it into a straight line.
+* Tangent: Sets the angle for the vertex.
+* Width: Edits the width of the line connecting the current vertex to the next vertex.
+* exit: Ends vertex editing and returns to the polyline property editing state.
+
+## **1\. How to Edit a Polyline** [**Demo Video**](https://youtu.be/fveiquYo7GQ)
+
+1\) Run the "PEDIT" command.  
+2\) Select the polyline.  
+3\) Select the property you want to edit and proceed with editing.  
+4\) Enter the Undo keyword to cancel the most recently performed action.  
+5\) Enter the exit keyword, or press the Esc or ENTER key, to end editing.

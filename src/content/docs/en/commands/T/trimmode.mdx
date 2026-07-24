@@ -1,0 +1,33 @@
+﻿---
+title: TRIMMODE
+---
+
+[image1]: ../../../../../assets/images/en/commands/trimmode/image1.png
+[image2]: ../../../../../assets/images/en/commands/trimmode/image2.png
+[image3]: ../../../../../assets/images/en/commands/trimmode/image3.png
+
+- A system variable command that determines whether the original lines are automatically trimmed during Fillet (FILLET)/Chamfer (CHAMFER) operations.
+- This command sets whether the original lines are automatically trimmed.
+
+* TRIMMODE \= ON(1): Does not keep
+* TRIMMODE \= OFF(0): Keeps
+
+![][image1]
+
+## **1\. Not Keeping the Original Edge Before Fillet/Chamfer** [**Demo Video**](https://youtu.be/2tRVJ9GMJoM)
+
+1\) Run the "TRIMMODE" command and enter "1" or "ON".  
+2\) To verify, run the "FILLET" command.  
+3\) Enter the Radius (R) keyword, enter a value, then press ENTER. (If the radius is set to 0, no arc will be created.)  
+4\) Select the first intersecting line object.  
+5\) Select the second line object and check the result.  
+![][image2]
+
+## **2\. Keeping the Original Edge Before Fillet/Chamfer** [**Demo Video**](https://youtu.be/a-clgN85qmA)
+
+1\) Run the "TRIMMODE" command and enter "0" or "OFF".  
+2\) To verify, run the "FILLET" command.  
+3\) Enter the Radius (R) keyword, enter a value, then press ENTER. (If the radius is set to 0, no arc will be created.)  
+4\) Select the first intersecting line object.  
+5\) Select the second line object and check the result.  
+![][image3]

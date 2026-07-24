@@ -1,0 +1,22 @@
+---
+title: PLINECONVERTMODE
+---
+
+[image1]: ../../../../../assets/images/en/commands/plineconvertmode/image1.png
+
+* Determines the segment format of the polyline when converting splines, arcs, lines, and similar objects into a polyline.
+
+![][image1]
+
+## **1\. Setting the Polyline Conversion Mode** [**Demo Video**](https://youtu.be/hH1pp_7eG4k)
+
+1\) Type "PLINECONVERTMODE" in the Command Line.  
+2\) Select the desired option.
+
+| Value | Behavior | Use |
+| :---: | :---: | ----- |
+| 0 | Converts to straight-line segments | Use when a simple polygonal shape is needed |
+| 1 | Converts to arc segments | Use when curvature must be better preserved for a smooth result |
+
+3\) Any subsequent conversion of a spline to a polyline will reflect this mode.
+

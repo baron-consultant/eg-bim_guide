@@ -1,0 +1,24 @@
+---
+title: XREFTYPE
+---
+
+[image1]: ../../../../../assets/images/en/commands/xreftype/image1.png
+[image2]: ../../../../../assets/images/en/commands/xreftype/image2.png
+
+- Specifies how external references (Xref) are inserted. When attaching an Xref to a drawing, you can choose either the Attach or Overlay method.
+
+![][image1]
+
+## **1\. Setting the External File Insertion Method** [**Demo Video**](https://youtu.be/vs68kTlWJ38)
+
+1\) Run the "XREFTYPE" command in the Command Line.  
+2\) Enter the desired option.
+
+- OFF: Inserts the external reference as a regular attachment (Attach method).  
+If this drawing is later loaded as an Xref into another drawing, the nested Xref comes along with it.
+- ON: Inserts the external reference as an overlay (Overlay method).  
+If this drawing is later loaded as an Xref into another drawing, the overlaid Xref does not come along with it.
+
+3\) Press ENTER or the SPACE BAR to apply the setting.  
+4\) Any Xref inserted afterward is applied using the specified default method (Attach or Overlay).  
+![][image2]

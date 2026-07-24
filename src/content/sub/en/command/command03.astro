@@ -1,0 +1,92 @@
+---
+import { IMAGE_BASE_PATH, VIDEO_BASE_PATH } from '../../config';
+
+
+import VideoModal from '.././../../../components/VideoModal.astro';
+
+const videoModals = [
+  { id: 'modal-rebar', videoSrc: `${VIDEO_BASE_PATH}/video/en/rebar_detail.mp4` },
+];
+---
+<section id="group13" class="command03">
+  <!-- 타이틀 -->
+  <div class="page-tit-wrap">
+    <div class="tit-box">
+      <span class="page-tail"></span>
+      <h3>
+        Heavy, time-consuming Structure/rebar drawings -&nbsp;<span>easy for beginners with specialized commands</span>
+      </h3>
+      <span class="page-tail"></span>
+    </div>
+    <div class="tip-box">
+      <h4 class="tip-tit">How to use</h4>
+      <dl>
+        <dt>Method 1</dt>
+        <dd>
+          Command Icon Bar&nbsp;&nbsp;>&nbsp;&nbsp;Command
+          View All&nbsp;&nbsp;>&nbsp;&nbsp;Structure
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- // 타이틀 -->
+  <div class="contents">
+    <div class="inner">
+      <img class="bg-img" src={`${IMAGE_BASE_PATH}/en/command/3x_command_03.png`} alt=" " />
+      <!-- 링크 -->
+      <ul>
+        <li>
+          <button class="link-rebar"  type="button" data-modal="modal-rebar">
+            <span class="blind">Rebar Detail Drawings</span>
+            <div class="blind">
+              1. Select creation method
+              2. Select rebar detail: Select rebar detail from preview to add to the rebar specification table
+              3. Input rebar specs: a. Directly input specs per rebar (Saved files can be loaded and used) b. Entered specs can be saved as a file
+              4. Insert rebar detail drawing (Execute Command): Click the command, applied when entered in the input window
+            </div>
+          </button>
+        </li>
+         <li class="blind">
+          <dl>
+            <dt>Set Drawing Scale</dt>
+            <dd>Input values first so that rebar, marking blocks, and material tables are created to match the drawing scale</dd>
+
+            <dt>Rebar Marking Block</dt>
+            <dd>Create rebar marking blocks for point rebars and line rebars</dd>
+            <dd>Possible to display Rebar C.T.C and mark rebar details</dd>
+
+            <dt>Draw Rebar Layout Diagram</dt>
+
+            <dt>Rebar Data Inquiry & Tag Modification</dt>
+
+            <dt>Load Standard Layers(CALS)</dt>
+            <dd>Check desired layers from the list and click the Apply button to add checked items to the layer window</dd>
+
+            <dt>Create Material Table</dt>
+            <dd>Create after confirming detailed option settings for rebar specs and material tables</dd>
+          </dl>
+        </li>
+
+      </ul>
+      <!-- // 링크 -->
+    </div>
+  </div>
+
+    <!-- 모달들 -->
+  {videoModals.map(modal => (
+    <VideoModal id={modal.id} videoSrc={modal.videoSrc} />
+  ))}
+</section>
+
+<script>
+  import { initModalController } from '.././../../../lib/modalController';
+  
+  // 초기 로드
+  initModalController();
+  
+  // Astro 페이지 전환 시에도 재실행
+  document.addEventListener('astro:page-load', () => {
+    initModalController();
+  });
+</script>

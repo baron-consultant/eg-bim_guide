@@ -1,0 +1,37 @@
+﻿---
+title: CHAMFER
+---
+
+[image1]: ../../../../../assets/images/en/commands/chamfer/image1.png
+[image2]: ../../../../../assets/images/en/commands/chamfer/image2.png
+
+- Chamfers the edges of an object that has vertices.
+
+![][image1]
+
+- Chamfer option keywords
+
+* Polyline: Selects a 2D polyline object with vertices and chamfers all of its corners.
+* Distance: Sets the length of each of the two edges connected to a vertex.
+* Angle: Sets the length of one edge connected to a vertex, along with the angle from that edge to the adjacent edge.
+* Method: Sets whether to use the Distance or Angle setting to perform the chamfer.  
+&nbsp;: After running the Distance keyword, the option is automatically set to Distance;  
+&nbsp; after running the Angle keyword, it is automatically set to Angle.
+* Trim: Sets whether to delete the original corner after chamfering.  
+(No Trim: does not delete, Trim: deletes)
+* Settings: Opens the CAD popup window for Chamfer/Fillet option settings.
+* Multiple: Continuously performs chamfering until you exit with ESC.
+
+![][image2]
+
+- Chamfer settings popup window
+
+* Corners: Sets whether to delete the original corner after chamfering.
+* Distance-distance: Performs the chamfer by setting the length of each of the two edges connected to a vertex.
+* Distance-angle: Performs the chamfer by setting the length of one edge connected to a vertex and the angle from that edge to the other edge.
+
+## **1\. How to Chamfer the Edges of an Object** [**Demo Video**](https://youtu.be/XrSsD5VcH7k)
+
+1\) Run the "CHAMFER" command.  
+2\) Select one edge of the object to chamfer.  
+3\) Select another edge adjacent to the selected edge to perform the chamfer and end the command.

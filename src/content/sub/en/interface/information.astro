@@ -1,0 +1,81 @@
+---
+import { IMAGE_BASE_PATH } from "../../config";
+---
+
+<section id="group1" class="login">
+  <!-- 타이틀 -->
+  <div class="page-tit-wrap">
+    <div class="page-tit-wrap">
+      <div class="tit-box">
+        <span class="page-tail"></span>
+        <h3>
+          EG-BIM Software&nbsp;<span>Login and Logout</span>
+        </h3>
+        <span class="page-tail"></span>
+      </div>
+      <!--div class="tip-box">
+      <h4 class="tip-tit">How to use</h4>
+      <dl>
+        <dt>방식 1</dt>
+        <dd>
+          상단 바 좌측&nbsp;&nbsp;>&nbsp;&nbsp;EG-BIM 
+          로고&nbsp;&nbsp;>&nbsp;&nbsp;홈메뉴&nbsp;&nbsp;>&nbsp;&nbsp;S/W 정보
+        </dd>
+      </dl>
+    </div -->
+    </div>
+  </div>
+
+  <!-- // 타이틀 -->
+  <div class="contents">
+    <div class="inner">
+      <img
+        class="bg-img"
+        src={`${IMAGE_BASE_PATH}/en/interface/3x_information.png`}
+        alt=" "
+      />
+
+      <div class="blind">
+        <dl>
+          <dt>Login Window</dt>
+          <dd>Occurs upon initial execution or when running EG-BIM after logout</dd>
+
+          <dt>Enter ID</dt>
+          <dt>Enter Password</dt>
+
+          <dt>Login</dt>
+          <dd>Enter ID and Password to login and run EG-BIM</dd>
+          <dd>Login supported even in offline environment</dd>
+
+          <dt>Sign Up</dt>
+          <dd>If you do not have an account, proceed with sign up on the homepage</dd>
+
+          <dd>User Authentication</dd>
+          <dd>User authentication on the homepage is required to use EG-BIM</dd>
+          <dd>
+            Re-authentication is based on 30 days from the last online
+            authentication time or the remaining license validity period,
+            whichever is shorter
+          </dd>
+
+          <dt>Reset Password</dt>
+          <dd>If you forgot your password, recover it on the homepage</dd>
+
+          <dt>About</dt>
+          <dt>Current User</dt>
+
+          <dt>License Date</dt>
+          <dd>Regular User : Displays expiration date</dd>
+          <dd>Internal User : Displays ∞</dd>
+
+          <dt>Logout</dt>
+          <dd>
+            If there are drawings in the File Tab, logout is not possible, so
+            close all drawings before logging out * File Tab upon closing
+            drawing
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>

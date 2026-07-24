@@ -1,0 +1,95 @@
+---
+import { IMAGE_BASE_PATH } from "../../config";
+---
+
+<section id="group18" class="feature01">
+  <!-- 타이틀 -->
+  <div class="page-tit-wrap">
+    <div class="tit-box">
+      <span class="page-tail"></span>
+      <h3>
+        <span>Check</span>&nbsp;and <span>modify</span>&nbsp;all&nbsp;<span
+          >property information</span
+        >&nbsp;of the selected object
+      </h3>
+      <span class="page-tail"></span>
+    </div>
+    <div class="tip-box">
+      <h4 class="tip-tit">How to use</h4>
+      <dl>
+        <dt>Method 1</dt>
+        <dd>
+          Command Input Window&nbsp;&nbsp;>&nbsp;&nbsp;Command : PROPERTIES
+        </dd>
+      </dl>
+      <dl>
+        <dt>Method 2</dt>
+        <dd>
+          Command View All&nbsp;&nbsp;>&nbsp;&nbsp;Query /
+          Selection&nbsp;&nbsp;>&nbsp;&nbsp;
+          <img
+            src={`${IMAGE_BASE_PATH}/ico/ico_list.svg`}
+            alt=""
+          />&nbsp;&nbsp;Object Properties
+          Inquire&nbsp;&nbsp;>&nbsp;&nbsp;Properties Paletter
+        </dd>
+      </dl>
+      <dl>
+        <dt>Method 3</dt>
+        <dd>Top bar right&nbsp;&nbsp;>&nbsp;&nbsp;Properties</dd>
+      </dl>
+    </div>
+  </div>
+
+  <!-- // 타이틀 -->
+  <div class="contents">
+    <div class="inner">
+      <img
+        class="bg-img"
+        src={`${IMAGE_BASE_PATH}/en/feature/3x_feature_01.png`}
+        alt=" "
+      />
+      <div class="blind">
+        <dl>
+          <dt>Bar</dt>
+          <dd>
+            Major property information of the selected object is displayed and
+            can be modified
+          </dd>
+
+          <dt>Popup</dt>
+
+          <dt>Quick Select</dt>
+          <dd>
+            Filter selected objects by conditions to select only desired objects
+          </dd>
+
+          <dt>Basic Info</dt>
+          <dd>Basic properties shared by all objects</dd>
+
+          <dt>Shape Info</dt>
+          <dd>
+            Displays shape information such as size, area, length, and angle
+            according to the type of selected object
+          </dd>
+
+          <dt>Geometry</dt>
+          <dd>
+            Displays coordinate information such as start/end points and
+            vertices according to the type of selected object
+          </dd>
+
+          <dt>Multi-Selection</dt>
+          <dd>
+            When multiple objects of the same type are selected, displays the
+            object count
+          </dd>
+          <dd>
+            When multiple objects of different types are selected, displays as a
+            list * When multiple objects of different types are selected
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>

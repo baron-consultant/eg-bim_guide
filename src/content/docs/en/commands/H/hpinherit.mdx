@@ -1,0 +1,51 @@
+﻿---
+title: HPINHERIT
+---
+
+[image1]: ../../../../../assets/images/en/commands/hpinherit/image1.png
+[image2]: ../../../../../assets/images/en/commands/hpinherit/image2.png
+[image3]: ../../../../../assets/images/en/commands/hpinherit/image3.png
+[image4]: ../../../../../assets/images/en/commands/hpinherit/image4.png
+[image5]: ../../../../../assets/images/en/commands/hpinherit/image5.png
+[image6]: ../../../../../assets/images/en/commands/hpinherit/image6.png
+[image7]: ../../../../../assets/images/en/commands/hpinherit/image7.png
+
+# **HPINHERIT (Command)**
+
+- This is a system variable command related to hatch property inheritance.
+- This command sets whether the hatch origin is inherited when creating a hatch.
+
+* HPINHERIT \= OFF(0) : Disables hatch origin inheritance
+* HPINHERIT \= ON(1) : Enables hatch origin inheritance
+
+![][image1]
+
+## **1\. Disable Hatch Origin Inheritance** [**Demo Video**](https://youtu.be/4gmD11TYVtE)
+
+1\) Run the "HPINHERIT" command and enter 0 or OFF.  
+2\) Run the "RECTANGLE" command to draw two rectangles.  
+3\) Enter 0,0 for the first corner and 100,100 for the second corner, then press ENTER to draw the rectangle.  
+4\) Enter 150,0 for the first corner and 250,100 for the second corner, then press ENTER to draw the rectangle.  
+5\) Run the "HATCH" command and select the desired pattern.  
+6\) For the hatch origin, click 'Specified origin' \> 'Click to set new origin'.  
+7\) Enter 50,50 for the origin, then press ENTER.  
+8\) Select the first rectangle, then press ESC to end the command.  
+9\) Run the "HATCH" command again and click the![][image2]property inheritance button at the bottom right.  
+10\) Click the first hatch to inherit its property values, then select the second rectangle.  
+11\) The second hatch is created, and you can check the origin X, Y coordinates in the Properties window. (origin not inherited)  
+![][image3]![][image4]
+
+## **2\. Enable Hatch Origin Inheritance** [**Demo Video**](https://youtu.be/hakO2X6NhMM)
+
+1\) Run the "HPINHERIT" command and enter 1 or ON.  
+2\) Run the "RECTANGLE" command to draw two rectangles.  
+3\) Enter 0,0 for the first corner and 100,100 for the second corner, then press ENTER to draw the rectangle.  
+4\) Enter 150,0 for the first corner and 250,100 for the second corner, then press ENTER to draw the rectangle.  
+5\) Run the "HATCH" command and select the desired pattern.  
+6\) For the hatch origin, click 'Specified origin' \> 'Click to set new origin'.  
+7\) Enter 50,50 for the origin, then press ENTER.  
+8\) Select the first rectangle, then press ESC to end the command.  
+9\) Run the "HATCH" command again and click the![][image2]property inheritance button at the bottom right.  
+10\) Click the first hatch to inherit its property values, then select the second rectangle.  
+11\) The second hatch is created, and you can check the origin X, Y coordinates in the Properties window. (origin inherited)  
+![][image5]![][image6]

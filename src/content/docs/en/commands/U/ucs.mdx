@@ -1,0 +1,30 @@
+---
+title: UCS
+---
+
+[image1]: ../../../../../assets/images/en/commands/ucs/image1.png
+
+- Creates, manages, or switches to a user-defined coordinate system.
+
+![][image1]
+
+## **1\. Setting the User Coordinate System** [**Demo Video**](https://youtu.be/Hw2c8ISmVnA)
+
+1\) Type "UCS" in the Command Line.  
+2\) Select the required option to set a new coordinate system.
+
+|        Option        | Description                                                     |
+| :-----------------: | -------------------------------------------------------------- |
+|       3point         | Specifies the new origin and the X-axis and Y-axis directions with three points to set the UCS. |
+|        Delete        | Deletes a saved UCS.                                            |
+|        Entity        | Automatically sets the UCS to match the orientation of a specific object (line, face, etc.). |
+|        Origin        | Moves the origin (0,0,0) of the UCS to a new location.          |
+|       Previous       | Reverts to the previously used UCS.                             |
+|        Restore       | Loads a UCS saved under a name.                                 |
+|         Save         | Saves the current UCS under a name.                             |
+|         View         | Sets the UCS based on the current view direction.               |
+|      X / Y / Z       | Rotates the UCS around the selected axis (X, Y, or Z).          |
+|        World         | Returns to the default World Coordinate System (WCS).           |
+
+3\) Press the ENTER key to change the UCS based on the selected reference.  
+Note: The modified UCS becomes the reference for subsequent operations such as drawing, copying, and rotating.

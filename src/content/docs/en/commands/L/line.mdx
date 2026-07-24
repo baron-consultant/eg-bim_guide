@@ -1,0 +1,54 @@
+---
+title: LINE
+---
+
+[image1]: ../../../../../assets/images/en/commands/line/image1.png
+[image2]: ../../../../../assets/images/en/commands/line/image2.png
+[image3]: ../../../../../assets/images/en/commands/line/image3.png
+
+- Creates a new straight line using the current line style.
+- You can specify the start point directly on the screen, or set the last point as the start point.
+- You can draw a line by specifying options, and UNDO lets you cancel the most recently drawn line segment.
+- If you continue specifying endpoints in succession, a line is drawn starting from the endpoint of the previously drawn line.
+
+#### Running the Command
+
+![][image1]
+
+#### Options Available for the First Line
+
+![][image2]
+
+#### Options Available Starting from the Second Line
+
+![][image3]
+
+- Angle: Fixes the angle of the line
+- Length: Fixes the length of the line
+- Follow: Draws a line successively at the same angle as the previously drawn line. Only the length can be changed.
+- Undo: Cancels the most recently drawn line segment.
+
+## **1\. How to Draw a Line** [**Demo Video**](https://youtu.be/mQ0qKS157Go)
+
+1\) Run the "LINE" command.  
+2\) Specify the start point of the line on the screen with the mouse. (2 methods)  
+&nbsp;&nbsp;&nbsp;&nbsp;2-1) Specify the start point of the line on screen with the mouse.  
+&nbsp;&nbsp;&nbsp;&nbsp;2-2) Press ENTER or enter the "F" (Follow) key to specify the last point as the start point.  
+3\) Specify the endpoint at the desired location with the mouse. (2 methods)  
+&nbsp;&nbsp;&nbsp;&nbsp;3-1) Click on screen to specify only the endpoint.  
+&nbsp;&nbsp;&nbsp;&nbsp;3-2) Enter "A" (Angle) to specify the endpoint of a line with a fixed angle.  
+&nbsp;&nbsp;&nbsp;&nbsp;3-3) Enter "L" (Length) to specify the endpoint of a line with a fixed length.  
+4\) If you want to continue drawing lines, specify the endpoint at the desired location with the mouse. (4 methods)  
+&nbsp;&nbsp;&nbsp;&nbsp;4-1) Click on screen to specify only the endpoint.  
+&nbsp;&nbsp;&nbsp;&nbsp;4-2) Enter "A" (Angle) to specify the endpoint of a line with a fixed angle.  
+&nbsp;&nbsp;&nbsp;&nbsp;4-3) Enter "L" (Length) to specify the endpoint of a line with a fixed length.  
+&nbsp;&nbsp;&nbsp;&nbsp;4-4) If a line was drawn just before, enter "F" (Follow) to specify an endpoint at  
+the same angle as the previous line.  
+5\) To undo the previous line-drawing action, select the "Undo" keyword in the Command Line or type "U" (Undo).  
+6\) To end the line-drawing command, press ESC or ENTER.
+
+## **2\. How to Draw a Closed Shape** [**Demo Video**](https://youtu.be/WkC-M4IBhvI)
+
+1\) Run the "LINE" command.  
+2\) Draw at least two lines in succession.  
+3\) Type the "C" (Close) keyword to automatically draw a line from the current endpoint back to the very first start point of the currently running "LINE" command, and end the command.

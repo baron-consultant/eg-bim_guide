@@ -1,0 +1,46 @@
+﻿---
+title: UNDO
+---
+
+[image1]: ../../../../../assets/images/en/commands/undo/image1.png
+
+- Cancels (undoes) the most recently performed command or object edit during drawing work.
+
+![][image1]
+
+## **1\. Undoing an Operation** [**Demo Video**](https://youtu.be/XDhpsiwG6Xc)
+
+1\) Run the "UNDO" or "U" command, or press the CTRL+Z shortcut.  
+2\) The last command or object edit performed is undone.  
+3\) Running it multiple times undoes that many operations in reverse order.
+
+## **2\. Using Options**
+
+- After running the UNDO command, you can select the following options
+
+1\) Control
+
+- Controls how UNDO behaves.
+- _None_: Disables all UNDO functionality
+- _All_: Enables full UNDO capability
+- _One_: Allows only the most recent command to be undone.
+
+2\) Number
+
+- Specify the number of operations to undo, as a number.  
+Example: `UNDO 3` → Undoes the last 3 operations.
+
+3\) Auto
+
+- Automatically sets the UNDO starting point after each command is run.
+
+4\) Begin / End
+
+- `BEGIN`: Starts an UNDO group.
+- `END`: Ends an UNDO group.
+- Allows multiple grouped operations to be undone at once.
+
+5\) Mark / Back
+
+- `MARK`: Places a marker to return to at a later point.
+- `BACK`: Undoes back to the MARK point.
