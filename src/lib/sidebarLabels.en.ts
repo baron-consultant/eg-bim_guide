@@ -16,6 +16,11 @@ export const searchCountUnit = "";
 export const searchNoResultsTemplate = 'No search results for "{query}".';
 export const searchDeleteLabel = "Delete";
 
+// ✅ 진입 리다이렉트 페이지(RedirectLayout) 라벨(영문)
+export const redirectFallbackPrefix = "If you are not redirected automatically, click ";
+export const redirectFallbackLinkText = "this link";
+export const redirectFallbackSuffix = ".";
+
 // 그리미 탭 설정 (영문)
 export function getGrimmiTabEn(base: string): SidebarTab {
   return {
@@ -218,7 +223,7 @@ export function getGrimmiTabEn(base: string): SidebarTab {
         ],
       },
       {
-        title: "KRM",
+        title: "KKUREOMI",
         icon: "ico-ggurumi",
         items: [
           {

@@ -67,9 +67,26 @@ function getAstroFiles(dir) {
 }
 
 /* -------------------------------
- * 전체 검색 데이터 생성
+ * 전체 검색 데이터 생성 (locale별 캐시)
+ * - 페이지 이동/빌드마다 문서 377개 + 서브페이지 31개를 매번 다시 파싱하면
+ *   느려지므로, 프로세스 생존 기간 동안 locale별 결과를 1회만 계산해 재사용한다.
+ * - 콘텐츠를 수정 중이면 dev 서버를 재시작해야 검색 결과에 반영된다.
  * ------------------------------- */
+const searchDataCache = new Map();
+
 export async function generateSearchData(locale = 'ko') {
+  if (searchDataCache.has(locale)) {
+    return searchDataCache.get(locale);
+  }
+  const promise = buildSearchData(locale).catch((err) => {
+    searchDataCache.delete(locale); // 실패 시 다음 요청에서 재시도 가능하도록
+    throw err;
+  });
+  searchDataCache.set(locale, promise);
+  return promise;
+}
+
+async function buildSearchData(locale) {
   // ① MDX
   const allDocs = await getCollection('docs', e => e.id.startsWith(`${locale}/commands/`));
   const mdxSearchData = await Promise.all(

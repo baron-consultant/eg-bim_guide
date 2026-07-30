@@ -16,6 +16,11 @@ export const searchCountUnit = " 건";
 export const searchNoResultsTemplate = "{query}에 대한 검색 결과가 없습니다.";
 export const searchDeleteLabel = "삭제";
 
+// ✅ 진입 리다이렉트 페이지(RedirectLayout) 라벨(한국어)
+export const redirectFallbackPrefix = "자동으로 이동되지 않으면 ";
+export const redirectFallbackLinkText = "이 링크";
+export const redirectFallbackSuffix = "를 클릭해주세요.";
+
 // 그리미 탭 설정 (한국어)
 export function getGrimmiTabKo(base: string): SidebarTab {
   return {
