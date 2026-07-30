@@ -1072,7 +1072,7 @@ section .bg-img {
 .interface01 .link-sw {
   top: calc(336px / 840px * 100%);
   left: calc(1444px / 1670px * 100%);
-  width: calc(89px / 1670px * 100%);
+  width: calc(0px / 1670px * 100%);
 }
 
 .mainview .link-homemenu {
@@ -1354,7 +1354,7 @@ html[lang|="en"] .interface01 .link-userset {
 html[lang|="en"] .interface01 .link-sw {
   top: calc(336px / 840px * 100%);
   left: calc(1444px / 1670px * 100%);
-  width: calc(73px / 1670px * 100%);
+  width: calc(0px / 1670px * 100%);
 }
 
 html[lang|="en"] .mainview .link-homemenu {
