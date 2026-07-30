@@ -1414,7 +1414,7 @@ html[lang|="en"] .mainview .link-print {
 html[lang|="en"] .mainview .link-ggurumi {
   top: calc(261px / 888px * 100%);
   left: calc(1298px / 1670px * 100%);
-  width: calc(96px / 1670px * 100%);
+  width: calc(106px / 1670px * 100%);
 }
 
 html[lang|="en"] .mainview .link-mainprf {
